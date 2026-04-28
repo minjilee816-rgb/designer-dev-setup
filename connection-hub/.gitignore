@@ -8,7 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+# dist is intentionally tracked here so GitHub Pages can serve the prebuilt app
+# (the app uses private Intuit npm packages, so CI cannot build it).
 dist-ssr
 *.local
 
