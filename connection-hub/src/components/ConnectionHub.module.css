@@ -1,0 +1,108 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(12px, 4vw, 40px) 15px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-large, 24px);
+  background: var(--color-container-background-primary, #FFFFFF);
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(24px, 5vw, 32px) !important;
+  color: var(--color-text-primary, #000000);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLink {
+  margin-top: 8px;
+  padding: 0;
+}
+
+.link {
+  color: var(--color-link-text, #0077C5);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Credit Karma — match Accounts theming (Assets / Link more) */
+:global(body.ck-mobile) .header {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+:global(body.ck-mobile) .title {
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.4px;
+}
+
+:global(body.ck-mobile) .header :global(button) {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px 0 !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  color: #1D8354 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+}
+
+:global(body.ck-mobile) .header :global(button) > * {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+:global(body.ck-mobile) .header :global(button):hover {
+  background: transparent !important;
+  text-decoration: underline;
+}
+
+:global(body.ck-mobile) .link {
+  color: #1D8354;
+  font-weight: 700;
+}
+
+:global(body.ck-mobile) .page {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1A1A1A;
+  background: #FFFFFF;
+  gap: 16px;
+  min-height: 0;
+}
+
+:global(body.ck-mobile) .list {
+  gap: 8px;
+}

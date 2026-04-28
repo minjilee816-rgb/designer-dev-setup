@@ -1,0 +1,160 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 420;
+  animation: fadeIn 160ms ease;
+}
+
+.sheet {
+  background: var(--color-container-background-primary, #FFFFFF);
+  border-radius: var(--radius-large, 16px);
+  width: 100%;
+  max-width: 560px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  animation: slideIn 200ms ease;
+  overflow: hidden;
+}
+
+.topBar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 16px 0;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text-primary, #1A1A1A);
+  border-radius: 50%;
+}
+
+.iconBtn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.body {
+  padding: 8px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  color: var(--color-ui-positive, #108000);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary, #1A1A1A);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 24px 24px;
+  border-top: 1px solid var(--color-container-border-primary, #E3E5E8);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 700px) {
+  .backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .sheet {
+    max-width: 100%;
+    width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    justify-content: space-between;
+  }
+
+  .body {
+    flex: 1;
+    justify-content: center;
+    padding: 32px 24px;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+}
+
+@media (max-width: 400px) {
+  .footer > button {
+    width: 100%;
+  }
+}
+
+/* Credit Karma mobile mode */
+:global(body.ck-mobile) .backdrop {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+:global(body.ck-mobile) .sheet {
+  position: relative;
+  max-width: 374px;
+  width: 374px;
+  height: min(828px, calc(100vh - 80px));
+  max-height: min(828px, calc(100vh - 80px));
+  margin-top: 0;
+  border-radius: 40px;
+  justify-content: center;
+}
+
+:global(body.ck-mobile) .topBar {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 0;
+  z-index: 1;
+}
+
+:global(body.ck-mobile) .footer {
+  border-top: none;
+}
+
+:global(body.ck-mobile) .footer {
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 8px;
+}
+
+:global(body.ck-mobile) .footer > * {
+  width: 100%;
+}

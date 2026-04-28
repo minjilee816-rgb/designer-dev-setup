@@ -1,0 +1,937 @@
+.stage {
+  min-height: 100vh;
+  background: #1A1A1A;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Avenir Next',
+    sans-serif;
+  color: #1A1A1A;
+}
+
+.phone {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  max-height: calc(100vh - 64px);
+  background: #FFFFFF;
+  border-radius: 48px;
+  border: 8px solid #0F0F0F;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.notch {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 28px;
+  background: #0F0F0F;
+  border-radius: 0 0 18px 18px;
+  z-index: 4;
+}
+
+.statusBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.statusTime {
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.locArrow {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.statusRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 8px;
+  flex-shrink: 0;
+}
+
+.appTitle {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #1A1A1A;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #1A1A1A;
+  border-radius: 50%;
+}
+
+.iconBtn:hover {
+  background: #F0F1F4;
+}
+
+/* Top tab strip */
+.topTabs {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 0 16px;
+  border-bottom: 1px solid #E3E5E8;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.topTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.topTab {
+  position: relative;
+  flex-shrink: 0;
+  padding: 10px 8px 12px;
+  margin: 0 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7079;
+}
+
+.topTabActive {
+  color: #1A1A1A;
+  font-weight: 700;
+}
+
+.topTabActive::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 0;
+  height: 3px;
+  background: #1D8354;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Scrollable content */
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #FFFFFF;
+}
+
+.dashboard {
+  padding: 0 20px;
+}
+
+.divider {
+  height: 1px;
+  background: #E3E5E8;
+  margin: 16px 0;
+}
+
+/* Net worth */
+.netWorth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+.netWorthLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.netWorthLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.netWorthValue {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1A1A1A;
+}
+
+.netWorthDelta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 13px;
+}
+
+.deltaTriangle {
+  color: #1D8354;
+  font-size: 11px;
+}
+
+.deltaAmount {
+  color: #1D8354;
+  font-weight: 700;
+}
+
+.deltaPeriod {
+  color: #6B7079;
+}
+
+.spark {
+  width: 120px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+/* Score row */
+.scoreRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.scoreCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bureauName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.scoreValue {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A1A1A;
+  letter-spacing: -0.4px;
+}
+
+.scoreDelta {
+  font-size: 12px;
+  color: #1D8354;
+  font-weight: 600;
+}
+
+.scoreDeltaMuted {
+  color: #6B7079;
+  font-weight: 500;
+}
+
+.scoreBars {
+  position: relative;
+  margin-top: 6px;
+}
+
+.markerWrap {
+  position: absolute;
+  top: -10px;
+  left: 60%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #1A1A1A;
+}
+
+.bars {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+}
+
+.bar {
+  height: 10px;
+  border-radius: 2px;
+}
+
+.bar1 { background: #C8EAC8; }
+.bar2 { background: #95D795; }
+.bar3 { background: #5DBE5C; }
+.bar4 { background: #2E9E2E; }
+.bar5 { background: #1D5F1D; }
+
+.scoreLabel {
+  font-size: 11px;
+  color: #6B7079;
+  margin-top: 4px;
+}
+
+/* Refund */
+.refundRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 4px;
+}
+
+.refundLabel {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.refundValue {
+  margin: 4px 0 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1A1A1A;
+  letter-spacing: -0.5px;
+}
+
+.refundReveal {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  color: #1D8354;
+  padding: 8px 0;
+}
+
+/* Tip card */
+.tipCard {
+  margin: 12px 0 8px;
+  padding: 16px;
+  border: 1px solid #E3E5E8;
+  border-radius: 14px;
+  background: #FFFFFF;
+}
+
+.tipHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tipBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #1A1A1A;
+  color: #FFFFFF;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tipBadgeBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 800;
+}
+
+.tipBadgeMark {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tipClose {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #1A1A1A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.tipClose:hover {
+  background: #F0F1F4;
+}
+
+.tipBody {
+  margin: 12px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1A1A1A;
+  line-height: 1.35;
+}
+
+/* Section gap */
+.sectionGap {
+  height: 16px;
+  margin: 8px -20px 8px;
+  background: #F4F5F8;
+  border-top: 1px solid #E3E5E8;
+  border-bottom: 1px solid #E3E5E8;
+}
+
+/* Offer */
+.offerSection {
+  padding-top: 8px;
+}
+
+.offerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.offerTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #1A1A1A;
+}
+
+.seeWhy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #2873E0;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.seeWhy:hover {
+  background: #1F5FBF;
+}
+
+.seeWhyIcon {
+  font-size: 14px;
+}
+
+.offerSub {
+  margin: 8px 0 4px;
+  font-size: 14px;
+  color: #1A1A1A;
+}
+
+.offerDisclosure {
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: #6B7079;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.infoBubble {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #6B7079;
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.cardOffer {
+  border: 1px solid #E3E5E8;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+/* Credit card visual */
+.creditCard {
+  position: relative;
+  aspect-ratio: 1.586 / 1;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #C49A6C 0%, #B07F50 50%, #9C6740 100%);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(120, 60, 20, 0.25);
+}
+
+.creditCardBrand {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #2C1A0E;
+  white-space: nowrap;
+}
+
+.creditCardChip {
+  position: absolute;
+  top: 38%;
+  left: 14%;
+  width: 38px;
+  height: 28px;
+  background: linear-gradient(135deg, #D9B07A, #8C5E32);
+  border-radius: 5px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.creditCardCenturion {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.creditCardWaves {
+  position: absolute;
+  top: 38%;
+  right: 14%;
+}
+
+.creditCardNumber {
+  position: absolute;
+  top: 56%;
+  right: 14%;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2C1A0E;
+}
+
+.creditCardExp {
+  position: absolute;
+  bottom: 14%;
+  left: 36%;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2C1A0E;
+}
+
+.creditCardName {
+  position: absolute;
+  bottom: 8%;
+  left: 6%;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #2C1A0E;
+}
+
+.creditCardAmexMark {
+  position: absolute;
+  bottom: 6%;
+  right: 6%;
+  font-size: 9px;
+  font-weight: 700;
+  color: #2C1A0E;
+}
+
+.cardOfferTitle {
+  margin: 14px 0 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: #1A1A1A;
+}
+
+.endSpacer {
+  height: 24px;
+}
+
+/* Accounts tab */
+.accounts {
+  padding: 16px 20px 0;
+}
+
+.netWorthBig {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #1A1A1A;
+  line-height: 1.05;
+}
+
+.attentionBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% + 40px);
+  margin: 16px -20px 0;
+  padding: 14px 20px;
+  background: #FFC83D;
+  color: #1A1A1A;
+  border: none;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.attentionBanner:hover {
+  background: #F4BD2B;
+}
+
+.attentionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.attentionText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.attentionText strong {
+  font-weight: 700;
+}
+
+.attentionFix {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.bigChart {
+  width: calc(100% + 40px);
+  margin: 16px -20px 0;
+  height: 180px;
+  display: block;
+}
+
+.yearAxis {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0 8px;
+  font-size: 11px;
+  color: #6B7079;
+}
+
+.rangePills {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 0 4px;
+}
+
+.rangePill {
+  flex: 1;
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  border-radius: 999px;
+}
+
+.rangePill:hover {
+  background: #F0F1F4;
+}
+
+.rangePillActive {
+  background: #1D8354;
+  color: #FFFFFF;
+}
+
+.rangePillActive:hover {
+  background: #1D8354;
+}
+
+.basedOn {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #6B7079;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.categoryTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #1A1A1A;
+}
+
+.linkMore {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1D8354;
+  padding: 4px 0;
+}
+
+.linkMore:hover {
+  text-decoration: underline;
+}
+
+.categoryTotal {
+  margin: 4px 0 12px;
+  font-size: 16px;
+  color: #1A1A1A;
+}
+
+.categoryRows {
+  display: flex;
+  flex-direction: column;
+}
+
+.categoryRow {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #E3E5E8;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.categoryRow:last-child {
+  border-bottom: none;
+}
+
+.categoryRow:hover {
+  background: #F8F9FB;
+}
+
+.categoryIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: #1A1A1A;
+}
+
+.categoryText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.categoryLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.categorySub {
+  font-size: 13px;
+  color: #6B7079;
+}
+
+.categoryAmount {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1A1A;
+  white-space: nowrap;
+}
+
+.manageSection {
+  padding: 4px 0 12px;
+}
+
+.manageHint {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #6B7079;
+}
+
+.linkedScreen {
+  padding: 12px 0 24px;
+}
+
+.backRow {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 -4px 7px;
+  padding: 6px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1A1A1A;
+  border-radius: 8px;
+}
+
+.backRow:hover {
+  background: #F0F1F4;
+}
+
+.backRow svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Linked accounts override view */
+.connectionWrap {
+  padding: 8px 0 16px;
+}
+
+.connectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px 12px;
+}
+
+.backLink {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #1A1A1A;
+}
+
+.backLink:hover {
+  background: #F0F1F4;
+}
+
+.connectionTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1A1A1A;
+}
+
+/* Bottom nav */
+.bottomNav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-top: 1px solid #E3E5E8;
+  background: #FFFFFF;
+  padding: 6px 0 4px;
+  flex-shrink: 0;
+}
+
+.bottomTab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: #6B7079;
+}
+
+.bottomTab:hover {
+  color: #1A1A1A;
+}
+
+.bottomTabActive {
+  color: #1D8354;
+}
+
+.bottomTabIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomTabLabel {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.homeIndicator {
+  width: 134px;
+  height: 5px;
+  background: #0F0F0F;
+  border-radius: 3px;
+  margin: 0 auto 6px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 440px) {
+  .stage {
+    padding: 0;
+    background: #FFFFFF;
+  }
+  .phone {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+  .notch {
+    display: none;
+  }
+}

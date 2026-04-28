@@ -1,0 +1,162 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-container-background-primary, #FFFFFF);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 64px);
+}
+
+.inner {
+  width: 100%;
+  max-width: 1040px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vw, 40px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: clamp(28px, 5vw, 40px) !important;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2.5vw, 24px);
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(20px, 3vw, 28px);
+  background: var(--color-container-background-primary, #FFFFFF);
+  border: 1px solid var(--color-container-border-primary, #E3E5E8);
+  border-radius: var(--radius-large, 16px);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  min-height: 240px;
+}
+
+.card:hover {
+  border-color: var(--color-container-border-hover, #BABEC5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-link-text, #0077C5);
+  outline-offset: 2px;
+}
+
+.cardDisabled {
+  cursor: not-allowed;
+  background: var(--color-container-background-secondary, #F7F8FA);
+}
+
+.cardDisabled:hover {
+  border-color: var(--color-container-border-primary, #E3E5E8);
+  box-shadow: none;
+  transform: none;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandMark {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.3px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  flex-shrink: 0;
+}
+
+.brandQb {
+  background: #2CA01C;
+}
+
+.brandTt {
+  background: #377EF0;
+}
+
+.brandCk {
+  background: #1D8354;
+}
+
+.brandName {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  margin: 0;
+  flex: 1;
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cta {
+  color: var(--color-link-text, #0077C5);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ctaMuted {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.comingSoonBadge {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-container-background-tertiary, #E3E5E8);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}

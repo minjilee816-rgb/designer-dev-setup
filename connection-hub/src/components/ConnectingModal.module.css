@@ -1,0 +1,147 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 410;
+  animation: fadeIn 160ms ease;
+}
+
+.sheet {
+  background: var(--color-container-background-primary, #FFFFFF);
+  border-radius: var(--radius-large, 16px);
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  text-align: center;
+  padding: 56px 32px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  animation: slideIn 200ms ease;
+}
+
+.logoStage {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoCenter {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--brand-bg, #FFFFFF);
+  z-index: 1;
+}
+
+.logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logoFallback {
+  font-size: 28px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.spinner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--brand-color, #0077C5);
+  border-right-color: var(--brand-color, #0077C5);
+  animation: spin 1.1s linear infinite;
+}
+
+.label {
+  margin: 0;
+  font-size: 18px;
+  color: var(--color-text-primary, #1A1A1A);
+}
+
+.providerName {
+  font-weight: 700;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 700px) {
+  .backdrop {
+    padding: 0;
+    background: var(--color-container-background-primary, #FFFFFF);
+  }
+  .sheet {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    padding: 24px;
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .logoStage {
+    width: 96px;
+    height: 96px;
+  }
+  .logoCenter {
+    width: 56px;
+    height: 56px;
+  }
+  .label {
+    font-size: 16px;
+  }
+}
+
+/* Credit Karma mobile mode */
+:global(body.ck-mobile) .backdrop {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+:global(body.ck-mobile) .sheet {
+  position: relative;
+  max-width: 374px;
+  width: 374px;
+  height: min(828px, calc(100vh - 80px));
+  max-height: min(828px, calc(100vh - 80px));
+  margin-top: 0;
+  border-radius: 40px;
+  justify-content: center;
+}
