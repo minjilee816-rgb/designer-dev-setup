@@ -1,0 +1,108 @@
+.account {
+  background: var(--color-container-background-primary, #FFFFFF);
+  border: 1px solid var(--color-container-border-primary, #E3E5E8);
+  border-radius: var(--radius-medium, 8px);
+  overflow: hidden;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: clamp(8px, 2vw, 24px);
+  width: 100%;
+  padding: 14px clamp(12px, 2.5vw, 20px);
+  background: var(--color-container-background-secondary, #F7F8FA);
+  border: none;
+  border-bottom: 1px solid var(--color-container-border-primary, #E3E5E8);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: var(--color-text-primary);
+}
+
+.summary:hover {
+  background: var(--color-container-background-tertiary, #EDEFF3);
+}
+
+.accountNameWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.accountName {
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.errorIcon {
+  color: var(--color-text-negative, #D52B1E);
+  flex-shrink: 0;
+}
+
+.balance {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.updated {
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.chevron {
+  color: var(--color-text-secondary);
+  transition: transform 180ms ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.intents {
+  display: flex;
+  flex-direction: column;
+}
+
+.intentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px clamp(12px, 2.5vw, 20px);
+  border-bottom: 1px solid var(--color-container-border-primary, #E3E5E8);
+  gap: 12px;
+}
+
+.intentRow:last-child {
+  border-bottom: none;
+}
+
+.intentLabel {
+  color: var(--color-text-primary);
+  flex: 1;
+  min-width: 0;
+}
+
+.checkIcon {
+  color: var(--color-text-positive, #108000);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .summary {
+    grid-template-columns: 1fr auto auto;
+    row-gap: 4px;
+  }
+
+  .updated {
+    grid-column: 1 / -1;
+    font-size: 12px;
+  }
+}

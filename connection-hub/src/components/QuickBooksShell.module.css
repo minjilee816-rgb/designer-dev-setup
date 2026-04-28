@@ -1,0 +1,427 @@
+.shell {
+  display: grid;
+  grid-template-rows: 56px 1fr;
+  grid-template-columns: 88px 260px minmax(0, 1fr);
+  min-height: 100vh;
+  background: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Avenir Next',
+    sans-serif;
+  color: #1A1A1A;
+}
+
+/* Top bar — spans all 3 columns */
+.topBar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E3E5E8;
+  z-index: 2;
+  min-width: 0;
+}
+
+.topBrand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.qbLogoCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.qbWordmark {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 2px;
+}
+
+.qbWordmarkTop {
+  font-size: 8px;
+  font-weight: 700;
+  color: #6B7079;
+  letter-spacing: 1px;
+}
+
+.qbWordmarkBottom {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -0.3px;
+}
+
+.topDivider {
+  width: 1px;
+  height: 24px;
+  background: #E3E5E8;
+  margin: 0 4px;
+}
+
+.companySwitcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.companySwitcher:hover {
+  background: #F4F5F8;
+}
+
+.searchBox {
+  flex: 1;
+  min-width: 120px;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #F4F5F8;
+  border: 1px solid #E3E5E8;
+  border-radius: 999px;
+  color: #6B7079;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchBox > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topIcons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.topIconBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #1A1A1A;
+}
+
+.topIconBtn:hover {
+  background: #F4F5F8;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #236CFF;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+
+/* Icon rail — far left */
+.iconRail {
+  grid-column: 1;
+  grid-row: 2;
+  background: #FFFFFF;
+  border-right: 1px solid #E3E5E8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 0 0;
+  overflow-y: auto;
+}
+
+.railItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #1A1A1A;
+  background: transparent;
+  border: none;
+  font: inherit;
+  width: 72px;
+  text-align: center;
+}
+
+.railItem:hover {
+  background: #F4F5F8;
+}
+
+.railItemActive .railLabel {
+  font-weight: 700;
+}
+
+.railIconBox {
+  width: 40px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1A1A;
+  border-radius: 8px;
+}
+
+.railIconBoxActive {
+  background: #E3E5E8;
+}
+
+.railLabel {
+  font-size: 11px;
+  color: #1A1A1A;
+  line-height: 1.2;
+}
+
+.railSection {
+  font-size: 10px;
+  font-weight: 700;
+  color: #6B7079;
+  letter-spacing: 0.5px;
+  margin: 10px 0 4px;
+}
+
+.railPinnedItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  width: 72px;
+}
+
+.customizeWrap {
+  margin-top: auto;
+  padding: 10px 0;
+  border-top: 1px solid #E3E5E8;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Apps nav panel — second column */
+.appsPanel {
+  grid-column: 2;
+  grid-row: 2;
+  background: #FFFFFF;
+  border-right: 1px solid #E3E5E8;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+
+.appsHeader {
+  padding: 6px 20px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B7079;
+  letter-spacing: 0.5px;
+}
+
+.appGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.appGroupHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  text-align: left;
+  width: 100%;
+}
+
+.appGroupHeader:hover {
+  background: #F4F5F8;
+}
+
+.appGroupName {
+  flex: 1;
+}
+
+.appGroupChevron {
+  color: #6B7079;
+  display: flex;
+  align-items: center;
+}
+
+.appSubList {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 8px 8px;
+}
+
+.appSubItem {
+  padding: 8px 16px 8px 42px;
+  color: #1A1A1A;
+  font-size: 13px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.appSubItem:hover {
+  background: #F4F5F8;
+}
+
+.appSubItemActive {
+  background: #E3E5E8;
+  font-weight: 700;
+}
+
+/* Content column */
+.content {
+  grid-column: 3;
+  grid-row: 2;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  background: #FFFFFF;
+}
+
+/* Hide progressively as width shrinks */
+.hideLg {
+  /* shown by default; hidden below 1100 */
+}
+
+.hideMd {
+  /* shown by default; hidden below 900 */
+}
+
+.hideSm {
+  /* shown by default; hidden below 700 */
+}
+
+@media (max-width: 1200px) {
+  .shell {
+    grid-template-columns: 80px 240px minmax(0, 1fr);
+  }
+  .searchBox {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hideLg {
+    display: none !important;
+  }
+  .searchBox {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 72px 220px minmax(0, 1fr);
+  }
+  .hideMd {
+    display: none !important;
+  }
+  .searchBox {
+    display: none;
+  }
+  .companySwitcher {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 800px) {
+  .shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .iconRail {
+    display: none;
+  }
+  .appsPanel {
+    grid-column: 1;
+  }
+  .content {
+    grid-column: 2;
+  }
+  .topBar {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .appsPanel {
+    display: none;
+  }
+  .content {
+    grid-column: 1;
+  }
+  .topBar {
+    grid-column: 1;
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .hideSm {
+    display: none !important;
+  }
+  .qbWordmark {
+    display: none;
+  }
+  .topDivider {
+    display: none;
+  }
+  .companySwitcher {
+    font-size: 13px;
+    padding: 4px 6px;
+    min-width: 0;
+  }
+  .companySwitcher span,
+  .companySwitcher {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

@@ -1,0 +1,19 @@
+.logo {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+
+.initial {
+  font-weight: 700;
+  line-height: 1;
+}

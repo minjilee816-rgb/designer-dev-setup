@@ -1,0 +1,22 @@
+:root {
+  font-family: var(--font-family-body, system-ui, -apple-system, sans-serif);
+  line-height: var(--line-height-body, 1.5);
+  color: var(--color-text-primary);
+  background: var(--color-container-background-primary, #FFFFFF);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-width: 320px;
+}
+
+#root {
+  min-height: 100vh;
+}
