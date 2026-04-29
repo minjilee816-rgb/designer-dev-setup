@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, useEffect, useState, type ReactNode } from 'react'
+import { cloneElement, isValidElement, useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   Notification,
   Menu,
@@ -55,7 +55,12 @@ export function CreditKarmaShell({ children, onClose }: CreditKarmaShellProps) {
     }
   }, [])
 
+  const scrollRef = useRef<HTMLElement>(null)
   const onLinkedScreen = subScreen === 'linked'
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = 0
+  }, [subScreen])
 
   return (
     <div className={styles.stage}>
@@ -111,7 +116,7 @@ export function CreditKarmaShell({ children, onClose }: CreditKarmaShellProps) {
           </>
         )}
 
-        <main className={styles.scroll}>
+        <main className={styles.scroll} ref={scrollRef}>
           {onLinkedScreen ? (
             <div className={styles.linkedScreen}>
               <button
