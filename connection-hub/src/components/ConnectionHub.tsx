@@ -23,6 +23,43 @@ import {
 } from './products'
 import styles from './ConnectionHub.module.css'
 
+function BankIllustration() {
+  return (
+    <svg
+      className={styles.emptyIllustration}
+      viewBox="0 0 120 100"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {/* Building body */}
+      <rect x="26" y="50" width="68" height="36" rx="2" fill="#E8EDF2" />
+      {/* Pillars */}
+      <rect x="33" y="56" width="8" height="24" rx="1" fill="#BCC7D4" />
+      <rect x="48" y="56" width="8" height="24" rx="1" fill="#BCC7D4" />
+      <rect x="63" y="56" width="8" height="24" rx="1" fill="#BCC7D4" />
+      <rect x="78" y="56" width="8" height="24" rx="1" fill="#BCC7D4" />
+      {/* Roof / pediment */}
+      <path d="M20 50 L60 24 L100 50 Z" fill="#BCC7D4" />
+      {/* Steps */}
+      <rect x="20" y="84" width="80" height="5" rx="1" fill="#BCC7D4" />
+      <rect x="14" y="89" width="92" height="5" rx="1" fill="#BCC7D4" />
+    </svg>
+  )
+}
+
+function LinkedAccountsEmptyState() {
+  return (
+    <div className={styles.emptyState}>
+      <BankIllustration />
+      <h2 className={styles.emptyHeading}>No linked accounts yet</h2>
+      <p className={styles.emptyMessage}>
+        Link a bank or financial institution to see all your accounts in one place.
+      </p>
+    </div>
+  )
+}
+
 interface ConnectionHubProps {
   product?: 'quickbooks' | 'turbotax' | 'creditkarma' | 'intuit'
   autoOpenLink?: boolean
@@ -304,11 +341,7 @@ export function ConnectionHub({
         })}
       </ul>
 
-      {institutions.length === 0 && (
-        <B2 as="p" className={styles.empty}>
-          No connections yet. Click "Link accounts" to get started.
-        </B2>
-      )}
+      {institutions.length === 0 && <LinkedAccountsEmptyState />}
 
       <B2 as="p" className={styles.footerLink}>
         <a
