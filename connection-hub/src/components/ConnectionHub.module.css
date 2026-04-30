@@ -106,3 +106,53 @@
 :global(body.ck-mobile) .list {
   gap: 8px;
 }
+
+/* Empty state — shown when no accounts are linked */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 24px;
+  gap: 16px;
+}
+
+.emptyIllustration {
+  max-width: 120px;
+  width: 100%;
+  height: auto;
+}
+
+.emptyHeading {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary, #000000);
+}
+
+.emptyMessage {
+  margin: 0;
+  font-size: 14px;
+  color: #6B7079;
+  max-width: 280px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+:global(body.ck-mobile) .emptyState {
+  padding: 32px 20px;
+  gap: 12px;
+}
+
+:global(body.ck-mobile) .emptyHeading {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1A1A1A;
+  letter-spacing: -0.2px;
+}
+
+:global(body.ck-mobile) .emptyMessage {
+  font-size: 13px;
+  color: #6B7079;
+  max-width: 240px;
+}
