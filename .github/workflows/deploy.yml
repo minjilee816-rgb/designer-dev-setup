@@ -1,10 +1,11 @@
-name: Deploy connection-hub to GitHub Pages
+name: Deploy apps to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
       - 'connection-hub/dist/**'
+      - 'medwrite-ai/dist/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -26,9 +27,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Assemble Pages site
+        run: |
+          mkdir -p _site
+          cp -r connection-hub/dist/. _site/
+          mkdir -p _site/medwrite-ai
+          cp -r medwrite-ai/dist/. _site/medwrite-ai/
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: connection-hub/dist
+          path: _site
 
       - uses: actions/deploy-pages@v4
         id: deployment
