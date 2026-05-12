@@ -222,6 +222,38 @@ button {
   font-size: 14px;
   font-weight: 600;
   flex-shrink: 0;
+  gap: 12px;
+}
+
+.main__title {
+  flex: 1;
+}
+
+.main__header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-action {
+  height: 30px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  background: #2a2a3a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 120ms;
+}
+
+.header-action:hover {
+  background: #34344a;
+}
+
+.header-step {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--c-muted-3);
 }
 
 .main__body {
@@ -229,6 +261,17 @@ button {
   background: #fff;
   display: flex;
   min-height: 0;
+  overflow: hidden;
+}
+
+.main__footer {
+  height: 64px;
+  background: #fff;
+  border-top: 1px solid var(--c-line-2);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
 }
 
 /* ----- Step 1 — Form layout ----- */
@@ -971,4 +1014,320 @@ button {
   font-weight: 500;
   width: 350px;
   max-width: 100%;
+}
+
+/* ============================================================ */
+/* Step 1 — Improved Configure Review Cycle                     */
+/* ============================================================ */
+
+.cfg {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  grid-template-rows: 1fr auto;
+  grid-template-areas:
+    "scroll preview"
+    "footer footer";
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cfg__scroll {
+  grid-area: scroll;
+  padding: 28px 32px;
+  overflow-y: auto;
+}
+
+.cfg-preview {
+  grid-area: preview;
+  background: #fff;
+  border-left: 1px solid var(--c-line-2);
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.cfg-preview__title {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.cfg-preview__sub {
+  font-size: 12px;
+  color: var(--c-muted-3);
+  margin-bottom: 18px;
+}
+
+.toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toc__item {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--c-ink-4);
+  line-height: 1.4;
+}
+
+.toc__item--bold {
+  font-weight: 600;
+  color: var(--c-ink);
+  margin-top: 4px;
+}
+
+.toc__item--muted {
+  color: var(--c-muted);
+  padding-left: 14px;
+}
+
+.toc__num {
+  min-width: 30px;
+  flex-shrink: 0;
+}
+
+.cfg-section {
+  margin-bottom: 32px;
+}
+
+.cfg-section__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 14px;
+}
+
+.cfg-section__num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--c-ink-3);
+  color: var(--c-ink-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font);
+}
+
+/* Doc card */
+.doc-card {
+  display: flex;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--c-line-4);
+  background: #fff;
+  transition: border-color 120ms, background 120ms;
+}
+
+.doc-card--selected {
+  border-color: var(--c-success);
+  background: var(--c-success-soft);
+}
+
+.doc-card__icon {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.doc-card__body {
+  flex: 1;
+}
+
+.doc-card__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-ink);
+  margin-bottom: 4px;
+}
+
+.doc-card__meta {
+  font-size: 12px;
+  color: var(--c-muted);
+  margin-bottom: 8px;
+}
+
+.doc-card__validated {
+  font-size: 12px;
+  color: var(--c-success);
+  font-weight: 600;
+}
+
+/* Review settings two-column */
+.cfg-settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.input--wide {
+  width: 100%;
+  max-width: 100%;
+}
+
+.textarea--wide {
+  width: 100%;
+  max-width: 100%;
+}
+
+.field__warn {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--c-warn);
+  font-weight: 500;
+}
+
+/* Reviewers list */
+.reviewers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.reviewer-row {
+  display: grid;
+  grid-template-columns: 36px 1.6fr 1fr 1fr 90px 28px;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+}
+
+.reviewer-row--alt {
+  background: var(--c-bg-2);
+}
+
+.reviewer-row__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--c-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.reviewer-row__name {
+  display: flex;
+  flex-direction: column;
+}
+
+.reviewer-row__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.reviewer-row__sub {
+  font-size: 11px;
+  color: var(--c-muted);
+}
+
+.reviewer-row__col {
+  font-size: 13px;
+  color: var(--c-ink-4);
+}
+
+.reviewer-row__status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--c-success-soft);
+  color: var(--c-success);
+  font-size: 11px;
+  font-weight: 600;
+  justify-self: start;
+}
+
+.reviewer-row__remove {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-muted-3);
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 120ms, color 120ms;
+  justify-self: end;
+}
+
+.reviewer-row__remove:hover {
+  background: var(--c-bg-3);
+  color: var(--c-danger);
+}
+
+.btn-outline {
+  margin-top: 10px;
+  align-self: flex-start;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  background: #fff;
+  border: 1.5px solid var(--c-primary);
+  color: var(--c-primary);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 120ms;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-outline--primary:hover {
+  background: var(--c-primary-soft);
+}
+
+/* Footer bar */
+.cfg-footer {
+  grid-area: footer;
+  background: #fff;
+  border-top: 1px solid var(--c-line-2);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cfg-footer__status {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: var(--c-muted);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+}
+
+.cfg-footer__status--ok {
+  background: var(--c-success-soft);
+  color: var(--c-success);
+  font-weight: 500;
+}
+
+.btn-pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Make the screen container taller and allow inner overflow for Step 1 */
+.screen {
+  min-height: 800px;
 }
