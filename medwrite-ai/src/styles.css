@@ -2426,6 +2426,384 @@ button {
 }
 
 /* ============================================================ */
+/* Step 5 v2 — Submit for Director Sign-off                     */
+/* ============================================================ */
+
+.signoff-v2 {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.signoff-v2__left,
+.signoff-v2__right {
+  padding: 22px 28px;
+  overflow-y: auto;
+}
+
+.signoff-v2__right {
+  background: #fff;
+  border-left: 1px solid var(--c-line-2);
+}
+
+.signoff-section {
+  margin-bottom: 24px;
+}
+
+.signoff-section:last-child {
+  margin-bottom: 0;
+}
+
+.signoff-section__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+/* Readiness banner */
+.gates-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--c-success-soft);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--c-success);
+  margin-bottom: 12px;
+}
+
+.gates-banner__icon {
+  font-size: 14px;
+}
+
+.gates-banner strong {
+  font-weight: 700;
+}
+
+.gates-banner__sep {
+  color: var(--c-success);
+}
+
+.gates-banner__sub {
+  color: var(--c-success);
+  font-weight: 500;
+}
+
+/* Readiness list */
+.readiness {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.readiness__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--c-success);
+}
+
+.readiness__check {
+  width: 18px;
+  height: 18px;
+  background: var(--c-success);
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.readiness__check-tick {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.readiness__label {
+  font-weight: 500;
+}
+
+/* Package list */
+.package-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.package-list__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--c-ink-3);
+}
+
+.package-list__icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  width: 18px;
+  text-align: center;
+}
+
+/* Recipient card */
+.recipient-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--c-purple-soft);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+}
+
+.avatar--purple {
+  background: #9b59d4;
+}
+
+.recipient-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.recipient-card__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.recipient-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--c-muted);
+}
+
+.recipient-card__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-success);
+  flex-shrink: 0;
+}
+
+.delegate-link {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--c-primary);
+  font-weight: 500;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.delegate-link:hover {
+  text-decoration: underline;
+}
+
+/* Director's view preview */
+.dir-preview {
+  background: var(--c-bg-2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.dir-preview__sub {
+  font-size: 12px;
+  color: var(--c-muted);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+.dir-preview__block {
+  margin-bottom: 14px;
+}
+
+.dir-preview__block-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-ink-2);
+  margin-bottom: 4px;
+}
+
+.dir-preview__line {
+  font-size: 12px;
+  color: var(--c-ink-4);
+  line-height: 1.5;
+}
+
+.dir-preview__audit {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--c-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.dir-preview__audit:hover {
+  text-decoration: underline;
+}
+
+/* Cover note */
+.cover-note {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  background: #fff;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--c-ink-3);
+  line-height: 1.5;
+  outline: none;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+
+.cover-note:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px rgba(89, 115, 242, 0.15);
+}
+
+/* Approval radio list */
+.approval-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.approval-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  font-size: 13px;
+  color: var(--c-ink-4);
+  cursor: pointer;
+  position: relative;
+}
+
+.approval-row input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.approval-row__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #cfcfd9;
+  background: #fff;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.approval-row input:checked + .approval-row__dot {
+  border-color: var(--c-primary);
+}
+
+.approval-row input:checked + .approval-row__dot::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: var(--c-primary);
+}
+
+.approval-row--active .approval-row__label {
+  color: var(--c-primary);
+  font-weight: 600;
+}
+
+/* Submit CTA */
+.signoff-cta {
+  width: 100%;
+  margin-top: 18px;
+  height: 52px;
+  background: var(--c-success);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 120ms, transform 120ms;
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+}
+
+.signoff-cta:hover:not(:disabled) {
+  background: #1f8060;
+}
+
+.signoff-cta:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.signoff-cta--done,
+.signoff-cta:disabled {
+  background: #cfcfd9;
+  cursor: default;
+}
+
+.signoff-toast {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--c-success-soft);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--c-success);
+  line-height: 1.5;
+}
+
+.signoff-toast strong {
+  font-weight: 700;
+}
+
+.signoff-toast__link {
+  display: block;
+  margin-top: 8px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--c-primary);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.signoff-toast__link:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================ */
 /* Step 2 v2 — Review Dashboard (improved)                      */
 /* ============================================================ */
 
