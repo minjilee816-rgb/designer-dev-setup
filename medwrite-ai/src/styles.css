@@ -1813,3 +1813,448 @@ button {
 .bar__fill--purple {
   background: #7a5af8;
 }
+
+/* ============================================================ */
+/* Step 2 v2 — Review Dashboard (improved)                      */
+/* ============================================================ */
+
+.dash-v2 {
+  flex: 1;
+  padding: 18px 24px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Toolbar */
+.dash-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  background: var(--c-bg-1);
+  border-radius: var(--radius-md);
+}
+
+.dash-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  padding: 6px 12px;
+  min-width: 0;
+}
+
+.dash-search__icon {
+  font-size: 12px;
+  color: var(--c-muted-3);
+}
+
+.dash-search__input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--c-ink-3);
+  min-width: 0;
+}
+
+.dash-status-row {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.dash-status-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: #fff;
+  border: 1px solid var(--c-line);
+  color: var(--c-muted);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+
+.dash-status-chip--active {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.dash-status-chip:hover:not(.dash-status-chip--active) {
+  background: var(--c-bg-3);
+}
+
+.bulk-btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  background: #fff;
+  border: 1.5px solid var(--c-primary);
+  color: var(--c-primary);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 120ms;
+}
+
+.bulk-btn:hover:not(:disabled) {
+  background: var(--c-primary-soft);
+}
+
+.bulk-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* KPIs with subtitles */
+.kpi--with-sub .kpi__main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.kpi--with-sub .kpi__value {
+  margin: 0;
+}
+
+.kpi__sub {
+  font-size: 12px;
+  color: var(--c-muted-3);
+}
+
+.kpi__value--red { color: var(--c-danger); }
+.kpi__value--warn { color: var(--c-warn); }
+
+.kpi--warn {
+  border-top-color: var(--c-warn);
+}
+
+/* Alert banner */
+.alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fdecec;
+  border: 1px solid #f4c5c1;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #8a2a23;
+}
+
+.alert-banner__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-danger);
+  flex-shrink: 0;
+}
+
+.alert-banner strong {
+  color: var(--c-danger);
+  font-weight: 700;
+}
+
+.alert-banner__close {
+  margin-left: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: #8a2a23;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert-banner__close:hover {
+  background: rgba(217, 64, 51, 0.12);
+}
+
+/* Reviewer table */
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.dash-table thead th {
+  background: var(--c-bg-3);
+  color: var(--c-muted-2);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dash-table thead th:first-child {
+  border-top-left-radius: var(--radius-sm);
+  border-bottom-left-radius: var(--radius-sm);
+}
+
+.dash-table thead th:last-child {
+  border-top-right-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.dash-table tbody td {
+  padding: 14px 12px;
+  color: var(--c-ink-4);
+  border-bottom: 1px solid var(--c-line-3);
+  vertical-align: middle;
+}
+
+.dash-table .dash-table__check {
+  width: 28px;
+  padding-left: 14px;
+  padding-right: 0;
+}
+
+.dash-table__check-label {
+  display: inline-flex;
+  cursor: pointer;
+  position: relative;
+}
+
+.dash-table__check-label input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.dash-table__check-label input:checked + .checkbox-mark {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+}
+
+.dash-table__check-label input:checked + .checkbox-mark::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.dash-table__role,
+.dash-table__sections {
+  font-size: 13px;
+}
+
+.row--overdue {
+  background: #fdecec;
+}
+
+.row--overdue td {
+  border-bottom-color: #f4c5c1;
+}
+
+/* Reviewer cell with avatar */
+.reviewer-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reviewer-cell__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--c-primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reviewer-cell__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.reviewer-cell__role {
+  font-size: 11px;
+  color: var(--c-muted);
+}
+
+.status--muted { color: var(--c-muted); font-weight: 600; }
+
+/* Inline progress bar in table */
+.dash-table__progress-head {
+  min-width: 180px;
+}
+
+.dash-table__progress-cell {
+  min-width: 180px;
+}
+
+.inline-bar {
+  display: inline-block;
+  width: 130px;
+  height: 8px;
+  background: var(--c-line-3);
+  border-radius: 4px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.inline-bar__fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 200ms;
+}
+
+.inline-bar__fill--green { background: var(--c-success); }
+.inline-bar__fill--blue  { background: var(--c-primary); }
+.inline-bar__fill--red   { background: var(--c-danger); }
+
+.inline-bar__pct {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-ink-4);
+}
+
+/* Per-row action button */
+.action-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 120ms;
+  color: #fff;
+}
+
+.action-btn:hover {
+  filter: brightness(0.95);
+}
+
+.action-btn--view     { background: var(--c-success); }
+.action-btn--nudge    { background: var(--c-primary); }
+.action-btn--reminder { background: var(--c-primary); }
+.action-btn--escalate { background: var(--c-danger); }
+
+/* Dashboard sub-section */
+.dash-section {
+  margin-top: 4px;
+}
+
+.dash-section__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 0 0 12px;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 18px;
+}
+
+.section-cell__head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--c-ink-4);
+  margin-bottom: 6px;
+}
+
+.section-cell__name {
+  font-weight: 500;
+}
+
+.section-cell__pct {
+  font-weight: 600;
+  color: var(--c-ink);
+}
+
+.section-bar {
+  height: 8px;
+  background: var(--c-line-3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.section-bar__fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.section-bar__fill--green  { background: var(--c-success); }
+.section-bar__fill--orange { background: var(--c-warn); }
+.section-bar__fill--red    { background: var(--c-danger); }
+.section-bar__fill--blue   { background: var(--c-primary); }
+.section-bar__fill--gray   { background: var(--c-line-4); }
+
+/* Velocity chart */
+.velocity-chart {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 14px;
+  align-items: end;
+  height: 140px;
+  padding: 0 4px;
+}
+
+.velocity-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.velocity-bar {
+  width: 100%;
+  max-width: 56px;
+  background: #d9dff5;
+  border-radius: 6px;
+  min-height: 12px;
+}
+
+.velocity-bar--active {
+  background: var(--c-success);
+}
+
+.velocity-day {
+  font-size: 11px;
+  color: var(--c-muted);
+}
+
+/* Dashboard footer actions */
+.dash-footer {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--c-line-2);
+  display: flex;
+  gap: 12px;
+}
