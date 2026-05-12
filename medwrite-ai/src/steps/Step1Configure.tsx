@@ -1,8 +1,20 @@
 import { useState } from 'react'
+import AddReviewerModal, { type NewReviewer } from '../components/AddReviewerModal'
 
 interface Props {
   onNext: () => void
 }
+
+const avatarPalette = [
+  '#d98c26',
+  '#269973',
+  '#9b59d4',
+  '#3b82f6',
+  '#d94033',
+  '#0ea5b7',
+  '#e879c3',
+  '#7a5af8',
+]
 
 const reviewTypes = ['Initial', 'Interim', 'Final'] as const
 const scopes = ['Full Document', 'Statistical Sections', 'Regulatory Sections', 'Custom'] as const
@@ -46,9 +58,17 @@ export default function Step1Configure({ onNext }: Props) {
   const [deadline, setDeadline] = useState('May 12, 2026')
   const [instructions, setInstructions] = useState('')
   const [reviewers, setReviewers] = useState<Reviewer[]>(initialReviewers)
+  const [showAdd, setShowAdd] = useState(false)
 
   const removeReviewer = (name: string) => {
     setReviewers((prev) => prev.filter((r) => r.name !== name))
+  }
+
+  const addReviewer = (r: NewReviewer) => {
+    const initial = r.name.trim().charAt(0).toUpperCase() || '?'
+    const avatarColor = avatarPalette[reviewers.length % avatarPalette.length]
+    setReviewers((prev) => [...prev, { ...r, initial, avatarColor }])
+    setShowAdd(false)
   }
 
   const allComplete = reviewers.length > 0 && deadline.trim().length > 0
@@ -164,7 +184,13 @@ export default function Step1Configure({ onNext }: Props) {
                 </button>
               </div>
             ))}
-            <button className="btn-outline btn-outline--primary" type="button">+ Add Reviewer</button>
+            <button
+              className="btn-outline btn-outline--primary"
+              type="button"
+              onClick={() => setShowAdd(true)}
+            >
+              + Add Reviewer
+            </button>
           </div>
         </section>
       </div>
@@ -203,6 +229,13 @@ export default function Step1Configure({ onNext }: Props) {
           Review & Launch →
         </button>
       </div>
+
+      <AddReviewerModal
+        open={showAdd}
+        defaultDeadline={deadline}
+        onClose={() => setShowAdd(false)}
+        onAdd={addReviewer}
+      />
     </div>
   )
 }
