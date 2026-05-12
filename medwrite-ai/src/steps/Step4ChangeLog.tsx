@@ -13,6 +13,10 @@ interface Change {
   source: string
   before?: string
   after?: string
+  /** Visible on Escalated rows so the user sees what the director's options would be. */
+  proposedAfter?: string
+  /** Set once a director response is captured. Shown in a small banner inside the card. */
+  directorNote?: string
 }
 
 const initialChanges: Change[] = [
@@ -53,6 +57,7 @@ const initialChanges: Change[] = [
     source: 'Dr. Raj · Blocker #1',
     before: 'SAP v1.0 definitions',
     after: 'Pending director review',
+    proposedAfter: 'Regenerate with SAP v2.0',
   },
 ]
 
@@ -69,6 +74,30 @@ export default function Step4ChangeLog({ onNext }: Props) {
 
   const undo = (id: number) => {
     setChanges((prev) => prev.filter((c) => c.id !== id))
+  }
+
+  // Convert an Escalated row into a resolved one based on the director response
+  const resolveEscalation = (id: number, response: 'accept' | 'reject') => {
+    setChanges((prev) =>
+      prev.map((c) => {
+        if (c.id !== id || c.status !== 'Escalated') return c
+        if (response === 'accept') {
+          return {
+            ...c,
+            status: 'Applied',
+            after: c.proposedAfter ?? c.after,
+            directorNote: 'Director approved this change',
+          }
+        }
+        return {
+          ...c,
+          status: 'Rejected',
+          after: undefined,
+          before: undefined,
+          directorNote: 'Director declined this change',
+        }
+      }),
+    )
   }
 
   const applied = changes.filter((c) => c.status === 'Applied').length
@@ -107,6 +136,40 @@ export default function Step4ChangeLog({ onNext }: Props) {
                 <div className="diff-card__diff">
                   <div className="diff-card__before">− {c.before}</div>
                   <div className="diff-card__after">+ {c.after}</div>
+                </div>
+              )}
+
+              {/* Director response widget on Escalated rows */}
+              {c.status === 'Escalated' && (
+                <div className="director-response">
+                  <div className="director-response__head">
+                    <span className="director-response__title">Awaiting director response</span>
+                    <span className="director-response__hint">
+                      Proposed fix: <em>{c.proposedAfter ?? '—'}</em>
+                    </span>
+                  </div>
+                  <div className="director-response__actions">
+                    <button
+                      className="btn-tag btn-tag--accept"
+                      type="button"
+                      onClick={() => resolveEscalation(c.id, 'accept')}
+                    >
+                      ✓ Director Accepted
+                    </button>
+                    <button
+                      className="btn-tag btn-tag--reject"
+                      type="button"
+                      onClick={() => resolveEscalation(c.id, 'reject')}
+                    >
+                      ✗ Director Rejected
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {c.directorNote && (
+                <div className={`director-note director-note--${meta.klass}`}>
+                  {c.status === 'Applied' ? '✓' : '✗'} {c.directorNote}
                 </div>
               )}
             </article>
@@ -170,9 +233,11 @@ export default function Step4ChangeLog({ onNext }: Props) {
             <span className="checkbox-mark" aria-hidden="true" />
             <span className="presubmit__label presubmit__label--green">Rejection rationales documented</span>
           </label>
-          <div className="presubmit__row presubmit__row--readonly">
-            <span className="presubmit__pending">☐</span>
-            <span className="presubmit__label presubmit__label--orange">
+          <div className={`presubmit__row presubmit__row--readonly${escalationPending ? '' : ' presubmit__row--done'}`}>
+            <span className={`presubmit__static-mark${escalationPending ? ' presubmit__static-mark--pending' : ' presubmit__static-mark--done'}`}>
+              {escalationPending ? '' : '✓'}
+            </span>
+            <span className={`presubmit__label ${escalationPending ? 'presubmit__label--orange' : 'presubmit__label--green'}`}>
               Escalation responses {escalationPending ? 'pending' : 'received'}
             </span>
           </div>
