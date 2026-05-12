@@ -1,42 +1,189 @@
+import { useState } from 'react'
+
 interface Props {
   onNext: () => void
 }
 
-const changes = [
-  { status: '✓ Applied', cls: 'status--applied', text: 'Table 12.1: Updated N=624' },
-  { status: '✓ Applied', cls: 'status--applied', text: 'Table 11.4: Added Bonferroni footnote' },
-  { status: '✓ Applied', cls: 'status--applied', text: 'Sec 2.1: Added ICH E9(R1) reference' },
-  { status: '✗ Rejected', cls: 'status--rejected', text: 'Sec 12.2: Remove per-protocol ref' },
-  { status: '⚡ Escalated', cls: 'status--escalated', text: 'Fig 12.3: Forest plot regeneration' },
-  { status: '⏳ Deferred', cls: 'status--deferred', text: 'Forest plot label styling' },
+type ChangeStatus = 'Applied' | 'Rejected' | 'Escalated'
+
+interface Change {
+  id: number
+  status: ChangeStatus
+  title: string
+  source: string
+  before?: string
+  after?: string
+}
+
+const initialChanges: Change[] = [
+  {
+    id: 1,
+    status: 'Applied',
+    title: 'Table 12.1: Updated N=624',
+    source: 'Dr. Raj · Required #4',
+    before: 'N=312 (per-protocol)',
+    after: 'N=624 (full analysis set)',
+  },
+  {
+    id: 2,
+    status: 'Applied',
+    title: 'Table 11.4: Added Bonferroni footnote',
+    source: 'Dr. Shaha · Required #7',
+    before: 'No footnote',
+    after: '† Bonferroni-corrected p-values',
+  },
+  {
+    id: 3,
+    status: 'Applied',
+    title: 'Sec 2.1: Added ICH E9(R1) reference',
+    source: 'Lisa · Suggestion #3',
+    before: 'No reference',
+    after: 'Per ICH E9(R1) guidelines…',
+  },
+  {
+    id: 4,
+    status: 'Rejected',
+    title: 'Sec 12.2: Remove per-protocol ref',
+    source: 'Lisa · Suggestion #8',
+  },
+  {
+    id: 5,
+    status: 'Escalated',
+    title: 'Fig 12.3: Forest plot regeneration',
+    source: 'Dr. Raj · Blocker #1',
+    before: 'SAP v1.0 definitions',
+    after: 'Pending director review',
+  },
 ]
 
+const statusMeta: Record<ChangeStatus, { label: string; klass: string }> = {
+  Applied: { label: '✓ Applied', klass: 'applied' },
+  Rejected: { label: '✗ Rejected', klass: 'rejected' },
+  Escalated: { label: '↑ Escalated', klass: 'escalated' },
+}
+
 export default function Step4ChangeLog({ onNext }: Props) {
+  const [changes, setChanges] = useState(initialChanges)
+  const [verifiedApplied, setVerifiedApplied] = useState(true)
+  const [verifiedRejections, setVerifiedRejections] = useState(true)
+
+  const undo = (id: number) => {
+    setChanges((prev) => prev.filter((c) => c.id !== id))
+  }
+
+  const applied = changes.filter((c) => c.status === 'Applied').length
+  const rejected = changes.filter((c) => c.status === 'Rejected').length
+  const escalated = changes.filter((c) => c.status === 'Escalated').length
+  const escalationPending = escalated > 0
+
+  const canSubmit = verifiedApplied && verifiedRejections && !escalationPending
+
   return (
-    <div className="changelog">
-      <div>
-        <h2 className="section-title" style={{ fontSize: 16, marginBottom: 16 }}>Change Log</h2>
-        <div className="changelog__list">
-          {changes.map((c) => (
-            <div key={c.text} className="change-row">
-              <div className={`change-row__status ${c.cls}`}>{c.status}</div>
-              <div className="change-row__text">{c.text}</div>
-            </div>
-          ))}
-        </div>
+    <div className="changelog-v2">
+      {/* Left column */}
+      <div className="changelog-v2__list">
+        <h2 className="changelog-v2__title">Change Log — with Before/After Diff</h2>
+
+        {changes.map((c) => {
+          const meta = statusMeta[c.status]
+          return (
+            <article key={c.id} className={`diff-card diff-card--${meta.klass}`}>
+              <div className="diff-card__head">
+                <span className={`diff-card__badge diff-card__badge--${meta.klass}`}>{meta.label}</span>
+                <div className="diff-card__title-block">
+                  <div className="diff-card__title">{c.title}</div>
+                  <a className="diff-card__source" href="#" onClick={(e) => e.preventDefault()}>
+                    🔗 {c.source}
+                  </a>
+                </div>
+                {c.status === 'Applied' && (
+                  <button className="diff-card__undo" onClick={() => undo(c.id)} type="button">
+                    ⤺ Undo
+                  </button>
+                )}
+              </div>
+
+              {c.before !== undefined && c.after !== undefined && (
+                <div className="diff-card__diff">
+                  <div className="diff-card__before">− {c.before}</div>
+                  <div className="diff-card__after">+ {c.after}</div>
+                </div>
+              )}
+            </article>
+          )
+        })}
       </div>
 
-      <aside className="summary-side">
-        <h3>Summary</h3>
-        <ul>
-          <li>3 changes applied</li>
-          <li>1 rejected (with rationale)</li>
-          <li>1 escalated to director</li>
-          <li>1 deferred to next cycle</li>
-          <li style={{ height: 8 }} />
-          <li>0 open blockers</li>
-        </ul>
-        <button className="btn-primary" style={{ width: '100%', height: 40 }} onClick={onNext} type="button">
+      {/* Right column */}
+      <aside className="changelog-v2__summary">
+        <h3 className="summary-v2__title">Incorporation Summary</h3>
+
+        <div className="summary-v2__rows">
+          <div className="summary-v2__row">
+            <span>Changes applied</span>
+            <span className="summary-v2__num summary-v2__num--green">{applied}</span>
+          </div>
+          <div className="summary-v2__row">
+            <span>Rejected (with rationale)</span>
+            <span className="summary-v2__num summary-v2__num--red">{rejected}</span>
+          </div>
+          <div className="summary-v2__row">
+            <span>Escalated to director</span>
+            <span className="summary-v2__num summary-v2__num--orange">{escalated}</span>
+          </div>
+          <div className="summary-v2__row">
+            <span>Deferred to next cycle</span>
+            <span className="summary-v2__num summary-v2__num--muted">1</span>
+          </div>
+          <div className="summary-v2__row">
+            <span>Open blockers</span>
+            <span className="summary-v2__num summary-v2__num--green">0</span>
+          </div>
+        </div>
+
+        {rejected > 0 && (
+          <div className="rationale">
+            <div className="rationale__title">Rejection Rationale</div>
+            <div className="rationale__body">
+              Per-protocol ref is required by EMA guidance. Change conflicts with regulatory requirements.
+            </div>
+          </div>
+        )}
+
+        <div className="presubmit">
+          <div className="presubmit__title">✅ Review Changes Before Submission</div>
+          <label className="presubmit__row">
+            <input
+              type="checkbox"
+              checked={verifiedApplied}
+              onChange={(e) => setVerifiedApplied(e.target.checked)}
+            />
+            <span className="checkbox-mark" aria-hidden="true" />
+            <span className="presubmit__label presubmit__label--green">All applied changes verified</span>
+          </label>
+          <label className="presubmit__row">
+            <input
+              type="checkbox"
+              checked={verifiedRejections}
+              onChange={(e) => setVerifiedRejections(e.target.checked)}
+            />
+            <span className="checkbox-mark" aria-hidden="true" />
+            <span className="presubmit__label presubmit__label--green">Rejection rationales documented</span>
+          </label>
+          <div className="presubmit__row presubmit__row--readonly">
+            <span className="presubmit__pending">☐</span>
+            <span className="presubmit__label presubmit__label--orange">
+              Escalation responses {escalationPending ? 'pending' : 'received'}
+            </span>
+          </div>
+        </div>
+
+        <button
+          className="btn-pill btn-pill--primary changelog-v2__submit"
+          onClick={onNext}
+          disabled={!canSubmit}
+          type="button"
+        >
           Submit for Sign-off →
         </button>
       </aside>
