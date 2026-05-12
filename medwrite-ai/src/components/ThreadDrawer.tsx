@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent as RKeyboardEvent } from 'react'
 
 export interface Reply {
   id: number
@@ -68,7 +68,7 @@ export default function ThreadDrawer({ open, comment, onClose, onReply, onAction
     setDraft('')
   }
 
-  const onTextareaKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const onTextareaKey = (e: RKeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
       e.preventDefault()
       submit()
