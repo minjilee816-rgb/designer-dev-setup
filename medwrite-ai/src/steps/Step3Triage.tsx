@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import ThreadDrawer, { type Reply, type ThreadComment } from '../components/ThreadDrawer'
 
 interface Props {
   onNext: () => void
@@ -10,17 +11,108 @@ interface Comment {
   id: number
   tag: TagKind
   author: string
+  role: string
+  avatarColor: string
+  initial: string
+  time: string
   text: string
-  replies: number
+  replies: Reply[]
 }
 
 const filters = ['All (47)', 'Blockers (2)', 'Required (14)', 'Suggestions (18)', 'Questions (13)']
 
 const initialComments: Comment[] = [
-  { id: 1, tag: 'Blocker', author: 'Dr. Raj', text: 'Forest plot uses old SAP v1.0 definitions', replies: 3 },
-  { id: 2, tag: 'Required', author: 'Dr. Raj', text: 'Table 12.1 denominator should be N=624', replies: 0 },
-  { id: 3, tag: 'Required', author: 'Dr. Shaha', text: 'Missing Bonferroni footnote on Table 11.4', replies: 2 },
-  { id: 4, tag: 'Suggestion', author: 'Lisa', text: 'Add ICH E9(R1) reference in Section 2.1', replies: 0 },
+  {
+    id: 1,
+    tag: 'Blocker',
+    author: 'Dr. Raj',
+    role: 'Biostatistician',
+    avatarColor: '#d98c26',
+    initial: 'R',
+    time: '2h ago',
+    text: 'Forest plot uses old SAP v1.0 definitions',
+    replies: [
+      {
+        id: 11,
+        author: 'Lisa Chen',
+        role: 'Regulatory Affairs',
+        avatarColor: '#269973',
+        initial: 'L',
+        time: '1h ago',
+        body: 'Confirmed — the v1.0 endpoint definitions were superseded after the DB lock. We should regenerate with SAP v2.0.',
+      },
+      {
+        id: 12,
+        author: 'Dr. Shaha',
+        role: 'Medical Director',
+        avatarColor: '#7a5af8',
+        initial: 'S',
+        time: '52m ago',
+        body: 'Agree. Also worth flagging this in the audit trail since regulators will check version provenance.',
+      },
+      {
+        id: 13,
+        author: 'You',
+        avatarColor: '#5973f2',
+        initial: 'Y',
+        time: '14m ago',
+        body: 'Routing to biostats for regen. Will hold the cycle until v2.0 plot lands.',
+        isYou: true,
+      },
+    ],
+  },
+  {
+    id: 2,
+    tag: 'Required',
+    author: 'Dr. Raj',
+    role: 'Biostatistician',
+    avatarColor: '#d98c26',
+    initial: 'R',
+    time: '3h ago',
+    text: 'Table 12.1 denominator should be N=624',
+    replies: [],
+  },
+  {
+    id: 3,
+    tag: 'Required',
+    author: 'Dr. Shaha',
+    role: 'Medical Director',
+    avatarColor: '#7a5af8',
+    initial: 'S',
+    time: '4h ago',
+    text: 'Missing Bonferroni footnote on Table 11.4',
+    replies: [
+      {
+        id: 31,
+        author: 'Dr. Raj',
+        role: 'Biostatistician',
+        avatarColor: '#d98c26',
+        initial: 'R',
+        time: '3h ago',
+        body: "Good catch — we corrected the alpha at 0.0167 but the footnote didn't carry through to the final PDF.",
+      },
+      {
+        id: 32,
+        author: 'You',
+        avatarColor: '#5973f2',
+        initial: 'Y',
+        time: '2h ago',
+        body: "Adding footnote now. Will mark resolved once it's in the v2.2 build.",
+        isYou: true,
+      },
+    ],
+  },
+  {
+    id: 4,
+    tag: 'Suggestion',
+    author: 'Lisa',
+    role: 'Regulatory Affairs',
+    avatarColor: '#269973',
+    initial: 'L',
+    time: '6h ago',
+    text: 'Add ICH E9(R1) reference in Section 2.1',
+    replies: [],
+  },
 ]
 
 const tagClass: Record<TagKind, string> = {
@@ -31,10 +123,19 @@ const tagClass: Record<TagKind, string> = {
 }
 
 export default function Step3Triage({ onNext }: Props) {
+  const [comments, setComments] = useState<Comment[]>(initialComments)
   const [activeFilter, setActiveFilter] = useState(filters[0])
   const [resolved, setResolved] = useState<Set<number>>(new Set())
   const [selected, setSelected] = useState<Set<number>>(new Set())
   const [conflictResolved, setConflictResolved] = useState(false)
+  const [openThreadId, setOpenThreadId] = useState<number | null>(null)
+
+  const visible = comments.filter((c) => !resolved.has(c.id))
+  const allSelected = visible.length > 0 && visible.every((c) => selected.has(c.id))
+  const openThreadComment = useMemo(
+    () => comments.find((c) => c.id === openThreadId) ?? null,
+    [comments, openThreadId],
+  )
 
   const handleAction = (id: number) => {
     setResolved((prev) => {
@@ -47,6 +148,7 @@ export default function Step3Triage({ onNext }: Props) {
       next.delete(id)
       return next
     })
+    if (openThreadId === id) setOpenThreadId(null)
   }
 
   const toggleSelect = (id: number) => {
@@ -58,16 +160,12 @@ export default function Step3Triage({ onNext }: Props) {
     })
   }
 
-  const visible = initialComments.filter((c) => !resolved.has(c.id))
-  const allSelected = visible.length > 0 && visible.every((c) => selected.has(c.id))
-
   const toggleSelectAll = () => {
     if (allSelected) setSelected(new Set())
     else setSelected(new Set(visible.map((c) => c.id)))
   }
 
-  const batchResolve = (action: 'accept' | 'reject' | 'escalate') => {
-    void action
+  const batchResolve = () => {
     setResolved((prev) => {
       const next = new Set(prev)
       selected.forEach((id) => next.add(id))
@@ -76,9 +174,42 @@ export default function Step3Triage({ onNext }: Props) {
     setSelected(new Set())
   }
 
+  const handleReply = (body: string) => {
+    if (openThreadId == null) return
+    setComments((prev) =>
+      prev.map((c) => {
+        if (c.id !== openThreadId) return c
+        const newReply: Reply = {
+          id: Date.now(),
+          author: 'You',
+          avatarColor: '#5973f2',
+          initial: 'Y',
+          time: 'just now',
+          body,
+          isYou: true,
+        }
+        return { ...c, replies: [...c.replies, newReply] }
+      }),
+    )
+  }
+
+  // Build the comment shape the drawer wants
+  const drawerComment: ThreadComment | null = openThreadComment
+    ? {
+        id: openThreadComment.id,
+        tag: openThreadComment.tag,
+        author: openThreadComment.author,
+        role: openThreadComment.role,
+        avatarColor: openThreadComment.avatarColor,
+        initial: openThreadComment.initial,
+        time: openThreadComment.time,
+        text: openThreadComment.text,
+        replies: openThreadComment.replies,
+      }
+    : null
+
   return (
     <div className="triage-v2">
-      {/* Conflict banner */}
       {!conflictResolved && (
         <div className="conflict-banner">
           <div className="conflict-banner__text">
@@ -96,7 +227,6 @@ export default function Step3Triage({ onNext }: Props) {
       )}
 
       <div className="triage-v2__body">
-        {/* LEFT — comments list */}
         <div className="triage-v2__left">
           <div className="ai-sub">
             ✨ AI found 3 clusters and 1 conflict. 8 comments on Table 11.4, 5 on regulatory language.
@@ -123,19 +253,17 @@ export default function Step3Triage({ onNext }: Props) {
             </button>
           </div>
 
-          {/* Batch action bar */}
           {selected.size > 0 && (
             <div className="batch-bar">
               <span className="batch-bar__count">{selected.size} selected</span>
               <div className="batch-bar__actions">
-                <button className="btn-tag btn-tag--accept" onClick={() => batchResolve('accept')} type="button">Accept all</button>
-                <button className="btn-tag btn-tag--reject" onClick={() => batchResolve('reject')} type="button">Reject all</button>
-                <button className="btn-tag btn-tag--escalate" onClick={() => batchResolve('escalate')} type="button">Escalate all</button>
+                <button className="btn-tag btn-tag--accept" onClick={batchResolve} type="button">Accept all</button>
+                <button className="btn-tag btn-tag--reject" onClick={batchResolve} type="button">Reject all</button>
+                <button className="btn-tag btn-tag--escalate" onClick={batchResolve} type="button">Escalate all</button>
               </div>
             </div>
           )}
 
-          {/* Comment cards */}
           <div className="comment-list">
             {visible.map((c) => (
               <div key={c.id} className="comment-card-v2">
@@ -153,9 +281,14 @@ export default function Step3Triage({ onNext }: Props) {
                     <span className="comment-card-v2__author">{c.author}</span>
                   </div>
                   <div className="comment-card-v2__text">{c.text}</div>
-                  {c.replies > 0 && (
-                    <button className="comment-card-v2__thread" type="button">
-                      💬 {c.replies} {c.replies === 1 ? 'reply' : 'replies'} <span className="comment-card-v2__thread-link">— View thread</span>
+                  {c.replies.length > 0 && (
+                    <button
+                      className="comment-card-v2__thread"
+                      type="button"
+                      onClick={() => setOpenThreadId(c.id)}
+                    >
+                      💬 {c.replies.length} {c.replies.length === 1 ? 'reply' : 'replies'}{' '}
+                      <span className="comment-card-v2__thread-link">— View thread</span>
                     </button>
                   )}
                 </div>
@@ -180,7 +313,6 @@ export default function Step3Triage({ onNext }: Props) {
           </div>
         </div>
 
-        {/* RIGHT — Document context + Resolution summary */}
         <aside className="triage-v2__right">
           <section className="doc-context">
             <h3 className="doc-context__title">📄 Document Context</h3>
@@ -254,6 +386,17 @@ export default function Step3Triage({ onNext }: Props) {
           </section>
         </aside>
       </div>
+
+      <ThreadDrawer
+        open={openThreadId !== null}
+        comment={drawerComment}
+        onClose={() => setOpenThreadId(null)}
+        onReply={handleReply}
+        onAction={(action) => {
+          void action
+          if (openThreadId != null) handleAction(openThreadId)
+        }}
+      />
     </div>
   )
 }
