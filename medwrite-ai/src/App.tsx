@@ -19,11 +19,19 @@ export default function App() {
   const [step, setStep] = useState(1)
   const current = steps.find((s) => s.id === step)!
 
+  const headerRight =
+    step === 1 ? (
+      <>
+        <button className="header-action" type="button">Save Draft</button>
+        <span className="header-step">Step 1 of 3</span>
+      </>
+    ) : undefined
+
   return (
     <div className="app">
       <div className="app__inner">
         <StepNav steps={steps} current={step} onChange={setStep} />
-        <Shell title={current.label} activeNav={current.sidebar}>
+        <Shell title={current.label} activeNav={current.sidebar} headerRight={headerRight}>
           {step === 1 && <Step1Configure onNext={() => setStep(2)} />}
           {step === 2 && <Step2Dashboard onNext={() => setStep(3)} />}
           {step === 3 && <Step3Triage onNext={() => setStep(4)} />}
