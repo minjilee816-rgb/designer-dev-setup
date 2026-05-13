@@ -453,20 +453,20 @@
   }
 }
 
-/* Credit Karma mobile mode — full-bleed modal that fills the phone frame */
+/* Credit Karma mobile mode — full-bleed modal aligned inside the phone frame */
 :global(body.ck-mobile) .backdrop {
-  padding: 0;
-  align-items: center;
+  padding: 40px 24px;
+  align-items: flex-start;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
 }
 
 :global(body.ck-mobile) .sheet {
   position: relative;
-  max-width: 390px;
-  width: 390px;
-  max-height: min(844px, 100vh);
-  height: min(844px, 100vh);
+  max-width: 374px;
+  width: 374px;
+  max-height: min(828px, calc(100vh - 80px));
+  height: min(828px, calc(100vh - 80px));
   margin: 0;
   border-radius: 40px;
 }
