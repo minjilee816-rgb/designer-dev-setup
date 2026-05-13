@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { H1, H2, B2, B3 } from '@ids-ts/typography'
 import { Button } from '@ids-ts/button'
 import { Switch } from '@ids-ts/switch'
@@ -31,6 +31,7 @@ interface ManageConnectionModalProps {
   product?: 'quickbooks' | 'turbotax' | 'creditkarma' | 'intuit'
   onClose: () => void
   onIntentChange: (accountId: string, intentId: string, enabled: boolean) => void
+  onRefreshAccount?: (accountId: string) => void
   onUnlink: (id: string) => void
 }
 
@@ -45,6 +46,7 @@ export function ManageConnectionModal({
   product = 'intuit',
   onClose,
   onIntentChange,
+  onRefreshAccount,
   onUnlink,
 }: ManageConnectionModalProps) {
   const [consentOpen, setConsentOpen] = useState(false)
@@ -132,6 +134,11 @@ export function ManageConnectionModal({
                 key={account.id}
                 account={account}
                 product={product}
+                onRefresh={
+                  onRefreshAccount
+                    ? () => onRefreshAccount(account.id)
+                    : undefined
+                }
                 onIntentRequest={(intent, nextEnabled) =>
                   setPendingToggle({
                     accountId: account.id,
@@ -240,14 +247,17 @@ export function ManageConnectionModal({
 function AccountCard({
   account,
   product,
+  onRefresh,
   onIntentRequest,
 }: {
   account: Account
   product: 'quickbooks' | 'turbotax' | 'creditkarma' | 'intuit'
+  onRefresh?: () => void
   onIntentRequest: (intent: Intent, nextEnabled: boolean) => void
 }) {
   const [expanded, setExpanded] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
+  const prevUpdated = useRef(account.lastUpdated)
 
   const visibleIntents = account.intents.filter((intent) => {
     if (product === 'quickbooks' && intent.id.endsWith('-tax')) return false
@@ -257,10 +267,17 @@ function AccountCard({
     return true
   })
 
+  useEffect(() => {
+    if (account.lastUpdated === prevUpdated.current) return
+    prevUpdated.current = account.lastUpdated
+    setRefreshing(true)
+    const t = window.setTimeout(() => setRefreshing(false), 800)
+    return () => window.clearTimeout(t)
+  }, [account.lastUpdated])
+
   const handleRefresh = () => {
     if (refreshing) return
-    setRefreshing(true)
-    window.setTimeout(() => setRefreshing(false), 900)
+    onRefresh?.()
   }
 
   return (

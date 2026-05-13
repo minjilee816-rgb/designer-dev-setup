@@ -212,6 +212,25 @@ export function ConnectionHub({
     setInstitutions((prev) => [...prev, newInst])
   }
 
+  const refreshAccount = (institutionId: string, accountId: string) => {
+    setInstitutions((prev) =>
+      prev.map((inst) => {
+        if (inst.id !== institutionId) return inst
+        const clicked = inst.accounts.find((a) => a.id === accountId)
+        if (!clicked) return inst
+        const sharedStamp = clicked.lastUpdated
+        return {
+          ...inst,
+          accounts: inst.accounts.map((acc) =>
+            acc.id === accountId || acc.lastUpdated === sharedStamp
+              ? { ...acc, lastUpdated: 'Updated just now' }
+              : acc,
+          ),
+        }
+      }),
+    )
+  }
+
   const updateIntent = (
     institutionId: string,
     accountId: string,
@@ -362,6 +381,9 @@ export function ConnectionHub({
         onClose={() => setActiveId(null)}
         onIntentChange={(accountId, intentId, enabled) =>
           active && updateIntent(active.id, accountId, intentId, enabled)
+        }
+        onRefreshAccount={(accountId) =>
+          active && refreshAccount(active.id, accountId)
         }
         onUnlink={unlinkInstitution}
       />
