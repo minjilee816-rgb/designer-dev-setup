@@ -219,11 +219,22 @@ export function ConnectionHub({
         const clicked = inst.accounts.find((a) => a.id === accountId)
         if (!clicked) return inst
         const sharedStamp = clicked.lastUpdated
+        const adjustBalance = (current: number): number => {
+          const magnitude = Math.max(Math.abs(current), 50)
+          const swing = magnitude * (0.005 + Math.random() * 0.025)
+          const direction = Math.random() < 0.5 ? -1 : 1
+          const next = current + direction * swing
+          return Math.round(next * 100) / 100
+        }
         return {
           ...inst,
           accounts: inst.accounts.map((acc) =>
             acc.id === accountId || acc.lastUpdated === sharedStamp
-              ? { ...acc, lastUpdated: 'Updated just now' }
+              ? {
+                  ...acc,
+                  lastUpdated: 'Updated just now',
+                  balance: adjustBalance(acc.balance),
+                }
               : acc,
           ),
         }
