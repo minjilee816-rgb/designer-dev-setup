@@ -453,7 +453,7 @@
   }
 }
 
-/* Credit Karma mobile mode — fit modal inside phone frame */
+/* Credit Karma mobile mode — full-bleed modal that fills the phone frame */
 :global(body.ck-mobile) .backdrop {
   padding: 0;
   align-items: center;
@@ -463,16 +463,22 @@
 
 :global(body.ck-mobile) .sheet {
   position: relative;
-  max-width: 374px;
-  width: 374px;
-  max-height: min(828px, calc(100vh - 80px));
-  height: min(828px, calc(100vh - 80px));
-  margin-top: 0;
+  max-width: 390px;
+  width: 390px;
+  max-height: min(844px, 100vh);
+  height: min(844px, 100vh);
+  margin: 0;
   border-radius: 40px;
+}
+
+:global(body.ck-mobile) .topBar {
+  padding: 44px 12px 0;
 }
 
 :global(body.ck-mobile) .hero {
   align-items: flex-start;
+  padding: 0;
+  gap: 12px;
 }
 
 :global(body.ck-mobile) .heroTitle {
@@ -480,7 +486,7 @@
 }
 
 :global(body.ck-mobile) .body {
-  padding: 8px 16px 16px;
+  padding: 0 16px 16px;
   gap: 12px;
 }
 
