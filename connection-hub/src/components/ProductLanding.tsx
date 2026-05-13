@@ -52,7 +52,7 @@ export function ProductLanding({ onSelect }: ProductLandingProps) {
     <div className={styles.page}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <H1 className={styles.title}>Connection Hub</H1>
+          <H1 className={styles.title}>Unified Linked Accounts</H1>
           <B2 as="p" className={styles.subtitle}>
             Choose a product to manage its linked accounts.
           </B2>
@@ -72,7 +72,7 @@ export function ProductLanding({ onSelect }: ProductLandingProps) {
                 aria-label={
                   disabled
                     ? `${product.name} — Coming soon`
-                    : `Open ${product.name} connection hub`
+                    : `Open ${product.name} linked accounts`
                 }
               >
                 <div className={styles.brand}>
