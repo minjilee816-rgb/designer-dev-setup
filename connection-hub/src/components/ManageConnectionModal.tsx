@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { H1, H2, B2, B3 } from '@ids-ts/typography'
 import { Button } from '@ids-ts/button'
 import { Switch } from '@ids-ts/switch'
@@ -6,6 +6,7 @@ import {
   ArrowsLgLeftRight,
   ChevronDown,
   Close,
+  Refresh,
   TriangleExclamationFill,
 } from '@design-systems/icons'
 import type { Institution, Account, Intent } from './products'
@@ -243,7 +244,7 @@ function AccountCard({
   account,
   product,
   onIntentRequest,
-  onRefreshAccount: _onRefreshAccount,
+  onRefreshAccount,
 }: {
   account: Account
   product: 'quickbooks' | 'turbotax' | 'creditkarma' | 'intuit'
@@ -251,6 +252,14 @@ function AccountCard({
   onRefreshAccount: (accountId: string) => void
 }) {
   const [expanded, setExpanded] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   const visibleIntents = account.intents.filter((intent) => {
     if (product === 'quickbooks' && intent.id.endsWith('-tax')) return false
@@ -281,6 +290,24 @@ function AccountCard({
         <B3 as="p" className={styles.accountUpdated}>
           {account.lastUpdated}
         </B3>
+        <button
+          type="button"
+          aria-label="Refresh account"
+          className={styles.refreshBtn}
+          onClick={() => {
+            if (refreshing) return
+            setRefreshing(true)
+            timeoutRef.current = setTimeout(() => {
+              onRefreshAccount(account.id)
+              setRefreshing(false)
+            }, 1200)
+          }}
+        >
+          <Refresh
+            size="small"
+            className={refreshing ? styles.refreshIconSpinning : styles.refreshIcon}
+          />
+        </button>
       </div>
 
       <button
