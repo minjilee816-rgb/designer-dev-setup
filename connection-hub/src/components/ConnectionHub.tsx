@@ -396,6 +396,7 @@ export function ConnectionHub({
         onRefreshAccount={(accountId) =>
           active && refreshAccount(active.id, accountId)
         }
+        onFix={(id) => setFixId(id)}
         onUnlink={unlinkInstitution}
       />
 

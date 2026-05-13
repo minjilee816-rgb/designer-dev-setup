@@ -32,6 +32,7 @@ interface ManageConnectionModalProps {
   onClose: () => void
   onIntentChange: (accountId: string, intentId: string, enabled: boolean) => void
   onRefreshAccount?: (accountId: string) => void
+  onFix?: (id: string) => void
   onUnlink: (id: string) => void
 }
 
@@ -47,6 +48,7 @@ export function ManageConnectionModal({
   onClose,
   onIntentChange,
   onRefreshAccount,
+  onFix,
   onUnlink,
 }: ManageConnectionModalProps) {
   const [consentOpen, setConsentOpen] = useState(false)
@@ -122,7 +124,15 @@ export function ManageConnectionModal({
                   ({institution.reauthNotice.errorCode})
                 </span>
               </B3>
-              <Button priority="tertiary" size="small">
+              <Button
+                priority="tertiary"
+                size="small"
+                onClick={() => {
+                  if (!onFix) return
+                  onClose()
+                  onFix(institution.id)
+                }}
+              >
                 Fix now
               </Button>
             </div>
