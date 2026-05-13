@@ -47,11 +47,11 @@ export function ToggleConfirmModal({
   const isConnectionScope = pendingToggle.scope === 'connection'
   const title = isConnectionScope
     ? isDisabling
-      ? `Disable ${pendingToggle.intentLabel.toLowerCase()}?`
-      : `Enable ${pendingToggle.intentLabel.toLowerCase()}?`
+      ? `Pause ${pendingToggle.intentLabel.toLowerCase()}?`
+      : `Resume ${pendingToggle.intentLabel.toLowerCase()}?`
     : isDisabling
-      ? 'Disable this account?'
-      : 'Enable this account?'
+      ? 'Pause this account?'
+      : 'Resume this account?'
   const description = isConnectionScope
     ? isDisabling
       ? `We'll stop importing tax documents from ${institution.name} into ${appName}.`
@@ -117,11 +117,11 @@ export function ToggleConfirmModal({
               size="medium"
               onClick={onConfirm}
             >
-              Disable now
+              Pause now
             </Button>
           ) : (
             <Button priority="primary" size="medium" onClick={onConfirm}>
-              Enable now
+              Resume now
             </Button>
           )}
         </div>

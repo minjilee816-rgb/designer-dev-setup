@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 import { B2, B3 } from '@ids-ts/typography'
 import { Switch } from '@ids-ts/switch'
 import {
   ChevronDown,
   CircleCheckFill,
+  Refresh,
   TriangleExclamationFill,
 } from '@design-systems/icons'
 import type { Account } from './products'
@@ -12,6 +13,7 @@ import styles from './AccountRow.module.css'
 interface AccountRowProps {
   account: Account
   onIntentChange: (intentId: string, enabled: boolean) => void
+  onRefresh?: (accountId: string) => void
 }
 
 const formatBalance = (value: number): string =>
@@ -20,8 +22,17 @@ const formatBalance = (value: number): string =>
     currency: 'USD',
   }).format(value)
 
-export function AccountRow({ account, onIntentChange }: AccountRowProps) {
+export function AccountRow({ account, onIntentChange, onRefresh }: AccountRowProps) {
   const [expanded, setExpanded] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
+
+  const handleRefresh = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    if (refreshing) return
+    setRefreshing(true)
+    onRefresh?.(account.id)
+    window.setTimeout(() => setRefreshing(false), 900)
+  }
 
   return (
     <div className={styles.account}>
@@ -49,6 +60,25 @@ export function AccountRow({ account, onIntentChange }: AccountRowProps) {
         <B3 as="span" className={styles.updated}>
           {account.lastUpdated}
         </B3>
+        <span
+          role="button"
+          tabIndex={0}
+          className={styles.refreshBtn}
+          onClick={handleRefresh}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              e.stopPropagation()
+              handleRefresh(e as unknown as MouseEvent<HTMLElement>)
+            }
+          }}
+          aria-label={`Refresh ${account.name}`}
+        >
+          <Refresh
+            size="small"
+            className={`${styles.refreshIcon} ${refreshing ? styles.refreshSpinning : ''}`}
+          />
+        </span>
         <ChevronDown
           size="small"
           className={`${styles.chevron} ${expanded ? styles.chevronOpen : ''}`}
