@@ -219,6 +219,47 @@
   color: var(--color-text-primary);
   font-size: 15px;
   font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+.accountRefreshBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-small, 4px);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.accountRefreshBtn:hover {
+  background: var(--color-container-background-secondary, #F7F8FA);
+  color: var(--color-text-primary);
+}
+
+.accountRefreshBtn:focus-visible {
+  outline: 2px solid var(--color-border-focus, #0077C5);
+  outline-offset: 2px;
+}
+
+.accountRefreshSpinning {
+  animation: accountRefreshSpin 800ms linear;
+}
+
+@keyframes accountRefreshSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .accountBalance {

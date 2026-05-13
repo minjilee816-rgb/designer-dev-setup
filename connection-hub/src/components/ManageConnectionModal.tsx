@@ -6,6 +6,7 @@ import {
   ArrowsLgLeftRight,
   ChevronDown,
   Close,
+  Refresh,
   TriangleExclamationFill,
 } from '@design-systems/icons'
 import type { Institution, Account, Intent } from './products'
@@ -246,6 +247,7 @@ function AccountCard({
   onIntentRequest: (intent: Intent, nextEnabled: boolean) => void
 }) {
   const [expanded, setExpanded] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
 
   const visibleIntents = account.intents.filter((intent) => {
     if (product === 'quickbooks' && intent.id.endsWith('-tax')) return false
@@ -254,6 +256,12 @@ function AccountCard({
     if (product === 'creditkarma' && intent.id.endsWith('-tax')) return false
     return true
   })
+
+  const handleRefresh = () => {
+    if (refreshing) return
+    setRefreshing(true)
+    window.setTimeout(() => setRefreshing(false), 900)
+  }
 
   return (
     <div className={styles.accountCard}>
@@ -269,6 +277,17 @@ function AccountCard({
           <B3 as="span" className={styles.accountLabel}>
             {account.name} (…{account.lastFour})
           </B3>
+          <button
+            type="button"
+            className={styles.accountRefreshBtn}
+            onClick={handleRefresh}
+            aria-label={`Refresh ${account.name}`}
+          >
+            <Refresh
+              size="small"
+              className={`${styles.accountRefreshIcon} ${refreshing ? styles.accountRefreshSpinning : ''}`}
+            />
+          </button>
         </div>
         <H1 className={styles.accountBalance}>
           {formatBalance(account.balance)}
