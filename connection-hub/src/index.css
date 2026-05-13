@@ -20,3 +20,18 @@ body {
 #root {
   min-height: 100vh;
 }
+
+/* QuickBooks brand overrides — applied wherever ThemeProvider sets data-theme="quickbooks". */
+[data-theme='quickbooks'] {
+  --color-action-standard: #2CA01C;
+  --color-action-standard-hover: #248B16;
+  --color-action-standard-active: #1E7613;
+  --color-action-standard-focus: #2CA01C;
+  --color-action-standard-subtle: #2CA01C00;
+  --color-action-standard-subtle-active: #2CA01C33;
+  --color-action-standard-subtle-focus: #2CA01C00;
+  --color-action-standard-subtle-hover: #2CA01C1A;
+  --color-border-focus: #2CA01C;
+  --color-text-link: #2CA01C;
+  --color-text-link-hover: #248B16;
+}
