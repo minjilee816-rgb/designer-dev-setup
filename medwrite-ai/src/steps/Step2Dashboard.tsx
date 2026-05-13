@@ -1,4 +1,9 @@
 import { useState } from 'react'
+import SendMessageModal, { type MessageKind } from '../components/SendMessageModal'
+import ViewReportModal from '../components/ViewReportModal'
+import EscalateModal from '../components/EscalateModal'
+import BulkActionsMenu, { type BulkAction } from '../components/BulkActionsMenu'
+import ToastHost, { type ToastKind, type ToastMessage } from '../components/Toast'
 
 interface Props {
   onNext: () => void
@@ -16,14 +21,16 @@ interface Reviewer {
   status: Status
   progress: number
   comments: number
-  action: { label: string; kind: 'view' | 'nudge' | 'reminder' | 'escalate' } | null
+  daysOverdue?: number
+  daysSinceLastUpdate?: number
+  completedAt?: string
 }
 
 const reviewers: Reviewer[] = [
-  { id: 'raj', initial: 'D', avatarColor: '#d98c26', name: 'Dr. Raj Patel', role: 'Biostatistician', sections: 'Sec 11, 12, 14', status: 'Complete', progress: 100, comments: 12, action: { label: 'View Report', kind: 'view' } },
-  { id: 'lisa', initial: 'L', avatarColor: '#269973', name: 'Lisa Chen', role: 'Regulatory Affairs', sections: 'Sec 1, 2, 15, 16', status: 'In Progress', progress: 60, comments: 8, action: { label: 'Send Nudge', kind: 'nudge' } },
-  { id: 'maria', initial: 'M', avatarColor: '#9b59d4', name: 'Maria Santos', role: 'Pharmacovig.', sections: 'Sec 12.3, 13', status: 'Not Started', progress: 0, comments: 0, action: { label: 'Send Reminder', kind: 'reminder' } },
-  { id: 'tom', initial: 'T', avatarColor: '#3b82f6', name: 'Tom Bradley', role: 'Data Mgmt', sections: 'Sec 11, 14.2', status: 'Overdue', progress: 30, comments: 7, action: { label: '● Escalate', kind: 'escalate' } },
+  { id: 'raj', initial: 'D', avatarColor: '#d98c26', name: 'Dr. Raj Patel', role: 'Biostatistician', sections: 'Sec 11, 12, 14', status: 'Complete', progress: 100, comments: 12, completedAt: 'Yesterday' },
+  { id: 'lisa', initial: 'L', avatarColor: '#269973', name: 'Lisa Chen', role: 'Regulatory Affairs', sections: 'Sec 1, 2, 15, 16', status: 'In Progress', progress: 60, comments: 8, daysSinceLastUpdate: 1 },
+  { id: 'maria', initial: 'M', avatarColor: '#9b59d4', name: 'Maria Santos', role: 'Pharmacovig.', sections: 'Sec 12.3, 13', status: 'Not Started', progress: 0, comments: 0, daysSinceLastUpdate: 4 },
+  { id: 'tom', initial: 'T', avatarColor: '#3b82f6', name: 'Tom Bradley', role: 'Data Mgmt', sections: 'Sec 11, 14.2', status: 'Overdue', progress: 30, comments: 7, daysOverdue: 2 },
 ]
 
 const statusFilters: Array<'All' | Status> = ['All', 'Complete', 'In Progress', 'Not Started', 'Overdue']
@@ -44,7 +51,6 @@ const sectionProgress = [
   { name: 'Sec 15-16', pct: 60, color: 'blue' },
 ]
 
-// Mon → Sun heights in % of chart area
 const velocity = [
   { day: 'Mon', height: 38, active: false },
   { day: 'Tue', height: 55, active: false },
@@ -55,11 +61,25 @@ const velocity = [
   { day: 'Sun', height: 70, active: true },
 ]
 
+let toastSeq = 0
+
 export default function Step2Dashboard({ onNext }: Props) {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<typeof statusFilters[number]>('All')
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [showAlert, setShowAlert] = useState(true)
+  const [bulkOpen, setBulkOpen] = useState(false)
+  const [toasts, setToasts] = useState<ToastMessage[]>([])
+
+  // Modal targets
+  const [messageTarget, setMessageTarget] = useState<{ reviewer: Reviewer; kind: MessageKind } | null>(null)
+  const [reportTarget, setReportTarget] = useState<Reviewer | null>(null)
+  const [escalateTarget, setEscalateTarget] = useState<Reviewer | null>(null)
+
+  const pushToast = (kind: ToastKind, text: string) => {
+    const id = ++toastSeq
+    setToasts((prev) => [...prev, { id, kind, text }])
+  }
 
   const filtered = reviewers.filter((r) => {
     const matchesQ =
@@ -87,6 +107,55 @@ export default function Step2Dashboard({ onNext }: Props) {
     })
   }
 
+  // Per-row action dispatcher
+  const handleRowAction = (r: Reviewer) => {
+    if (r.status === 'Complete') setReportTarget(r)
+    else if (r.status === 'In Progress') setMessageTarget({ reviewer: r, kind: 'nudge' })
+    else if (r.status === 'Not Started') setMessageTarget({ reviewer: r, kind: 'reminder' })
+    else if (r.status === 'Overdue') setEscalateTarget(r)
+  }
+
+  const rowActionLabel = (r: Reviewer) => {
+    switch (r.status) {
+      case 'Complete': return 'View Report'
+      case 'In Progress': return 'Send Nudge'
+      case 'Not Started': return 'Send Reminder'
+      case 'Overdue': return '● Escalate'
+    }
+  }
+
+  const rowActionKind = (r: Reviewer) => {
+    switch (r.status) {
+      case 'Complete': return 'view'
+      case 'In Progress': return 'nudge'
+      case 'Not Started': return 'reminder'
+      case 'Overdue': return 'escalate'
+    }
+  }
+
+  const handleBulkAction = (action: BulkAction) => {
+    setBulkOpen(false)
+    const names = reviewers
+      .filter((r) => selected.has(r.id))
+      .map((r) => r.name.split(' ')[0])
+      .join(', ')
+    switch (action) {
+      case 'message':
+        pushToast('success', `Message draft prepared for ${names}. Sent via Slack + Email.`)
+        break
+      case 'deadline':
+        pushToast('info', `Deadline picker would open for ${names}. (Demo)`)
+        break
+      case 'escalate':
+        pushToast('warning', `${selected.size} reviewer(s) escalated to their managers.`)
+        break
+      case 'export':
+        pushToast('success', `Exported ${selected.size} reviewer(s) as CSV.`)
+        break
+    }
+    setSelected(new Set())
+  }
+
   return (
     <div className="dash-v2">
       {/* Toolbar */}
@@ -112,9 +181,22 @@ export default function Step2Dashboard({ onNext }: Props) {
             </button>
           ))}
         </div>
-        <button className="bulk-btn" type="button" disabled={selected.size === 0}>
-          ⚡ Bulk Actions{selected.size > 0 ? ` (${selected.size})` : ''}
-        </button>
+        <div className="bulk-anchor">
+          <button
+            className="bulk-btn"
+            type="button"
+            disabled={selected.size === 0}
+            onClick={() => setBulkOpen((o) => !o)}
+          >
+            ⚡ Bulk Actions{selected.size > 0 ? ` (${selected.size})` : ''} ▾
+          </button>
+          <BulkActionsMenu
+            open={bulkOpen && selected.size > 0}
+            selectedCount={selected.size}
+            onClose={() => setBulkOpen(false)}
+            onAction={handleBulkAction}
+          />
+        </div>
       </div>
 
       {/* KPI row */}
@@ -154,6 +236,16 @@ export default function Step2Dashboard({ onNext }: Props) {
         <div className="alert-banner">
           <span className="alert-banner__dot" />
           <strong>ALERT:</strong>&nbsp;Tom Bradley is overdue by 2 days on Sec 11, 14.2 — 7 unresolved comments
+          <button
+            className="alert-banner__action"
+            type="button"
+            onClick={() => {
+              const tom = reviewers.find((r) => r.id === 'tom')!
+              setEscalateTarget(tom)
+            }}
+          >
+            Escalate now
+          </button>
           <button className="alert-banner__close" onClick={() => setShowAlert(false)} aria-label="Dismiss" type="button">×</button>
         </div>
       )}
@@ -215,11 +307,13 @@ export default function Step2Dashboard({ onNext }: Props) {
               </td>
               <td>{r.comments}</td>
               <td>
-                {r.action && (
-                  <button className={`action-btn action-btn--${r.action.kind}`} type="button">
-                    {r.action.label}
-                  </button>
-                )}
+                <button
+                  className={`action-btn action-btn--${rowActionKind(r)}`}
+                  type="button"
+                  onClick={() => handleRowAction(r)}
+                >
+                  {rowActionLabel(r)}
+                </button>
               </td>
             </tr>
           ))}
@@ -268,9 +362,63 @@ export default function Step2Dashboard({ onNext }: Props) {
         <button className="btn-pill btn-pill--primary" onClick={onNext} type="button">
           Start Comment Triage
         </button>
-        <button className="btn-pill btn-pill--ghost" type="button">Send All Reminders</button>
-        <button className="btn-pill btn-pill--ghost" type="button">📊 Export Report</button>
+        <button
+          className="btn-pill btn-pill--ghost"
+          type="button"
+          onClick={() => pushToast('success', `Reminders sent to all reviewers with pending sections.`)}
+        >
+          Send All Reminders
+        </button>
+        <button
+          className="btn-pill btn-pill--ghost"
+          type="button"
+          onClick={() => pushToast('success', `Exported full reviewer status as CSV.`)}
+        >
+          📊 Export Report
+        </button>
       </div>
+
+      {/* Modals */}
+      <SendMessageModal
+        open={messageTarget !== null}
+        kind={messageTarget?.kind ?? 'nudge'}
+        recipient={messageTarget?.reviewer ?? null}
+        onClose={() => setMessageTarget(null)}
+        onSend={(payload) => {
+          const r = messageTarget?.reviewer
+          setMessageTarget(null)
+          if (!r) return
+          const channelLabel = payload.channel === 'both' ? 'Slack + Email' : payload.channel === 'slack' ? 'Slack' : 'Email'
+          const verb = payload.kind === 'nudge' ? 'Nudge' : 'Reminder'
+          pushToast('success', `${verb} sent to ${r.name} via ${channelLabel}.`)
+        }}
+      />
+
+      <ViewReportModal
+        open={reportTarget !== null}
+        subject={reportTarget}
+        onClose={() => setReportTarget(null)}
+      />
+
+      <EscalateModal
+        open={escalateTarget !== null}
+        subject={escalateTarget}
+        onClose={() => setEscalateTarget(null)}
+        onSubmit={(payload) => {
+          const r = escalateTarget
+          setEscalateTarget(null)
+          if (!r) return
+          const routeLabel =
+            payload.route === 'manager'
+              ? "manager"
+              : payload.route === 'director'
+              ? 'Mark Thompson'
+              : 'Clinical Ops'
+          pushToast('warning', `Escalated ${r.name} to ${routeLabel} (urgency: ${payload.urgency}).`)
+        }}
+      />
+
+      <ToastHost toasts={toasts} onDismiss={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))} />
     </div>
   )
 }
