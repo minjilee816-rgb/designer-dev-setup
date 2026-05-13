@@ -241,6 +241,31 @@ export function ConnectionHub({
     )
   }
 
+  const refreshAccount = (institutionId: string, accountId: string) => {
+    setInstitutions((prev) =>
+      prev.map((inst) =>
+        inst.id !== institutionId
+          ? inst
+          : {
+              ...inst,
+              accounts: inst.accounts.map((acc) => {
+                if (acc.id !== accountId) return acc
+                let delta = Math.round((Math.random() * 100 - 50) * 100) / 100
+                if (delta === 0) delta = 0.01
+                const newBalance = Math.round((acc.balance + delta) * 100) / 100
+                const clampedBalance =
+                  acc.balance >= 0 ? Math.max(0, newBalance) : newBalance
+                return {
+                  ...acc,
+                  balance: clampedBalance,
+                  lastUpdated: 'Updated just now',
+                }
+              }),
+            },
+      ),
+    )
+  }
+
   const unlinkInstitution = (id: string) => {
     const inst = institutions.find((i) => i.id === id)
     if (!inst) return
@@ -362,6 +387,9 @@ export function ConnectionHub({
         onClose={() => setActiveId(null)}
         onIntentChange={(accountId, intentId, enabled) =>
           active && updateIntent(active.id, accountId, intentId, enabled)
+        }
+        onRefreshAccount={(accountId) =>
+          active && refreshAccount(active.id, accountId)
         }
         onUnlink={unlinkInstitution}
       />

@@ -30,6 +30,7 @@ interface ManageConnectionModalProps {
   product?: 'quickbooks' | 'turbotax' | 'creditkarma' | 'intuit'
   onClose: () => void
   onIntentChange: (accountId: string, intentId: string, enabled: boolean) => void
+  onRefreshAccount: (accountId: string) => void
   onUnlink: (id: string) => void
 }
 
@@ -44,6 +45,7 @@ export function ManageConnectionModal({
   product = 'intuit',
   onClose,
   onIntentChange,
+  onRefreshAccount,
   onUnlink,
 }: ManageConnectionModalProps) {
   const [consentOpen, setConsentOpen] = useState(false)
@@ -140,6 +142,7 @@ export function ManageConnectionModal({
                     nextEnabled,
                   })
                 }
+                onRefreshAccount={onRefreshAccount}
               />
             ))}
           </div>
@@ -240,10 +243,12 @@ function AccountCard({
   account,
   product,
   onIntentRequest,
+  onRefreshAccount: _onRefreshAccount,
 }: {
   account: Account
   product: 'quickbooks' | 'turbotax' | 'creditkarma' | 'intuit'
   onIntentRequest: (intent: Intent, nextEnabled: boolean) => void
+  onRefreshAccount: (accountId: string) => void
 }) {
   const [expanded, setExpanded] = useState(false)
 
