@@ -144,7 +144,11 @@ export function ConnectionHub({
         return {
           ...rest,
           status: 'active' as ConnectionStatus,
-          accounts: inst.accounts.map((acc) => ({ ...acc, hasError: false })),
+          accounts: inst.accounts.map((acc) => ({
+            ...acc,
+            hasError: false,
+            lastUpdated: 'Updated just now',
+          })),
         }
       }),
     )
