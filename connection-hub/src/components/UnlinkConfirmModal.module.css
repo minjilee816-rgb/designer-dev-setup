@@ -197,7 +197,7 @@
 
 /* Credit Karma mobile mode */
 :global(body.ck-mobile) .backdrop {
-  padding: 0;
+  padding: 40px 24px max(40px, calc(100vh - 868px));
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
