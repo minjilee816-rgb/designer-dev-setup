@@ -201,6 +201,46 @@
 
 .accountMain {
   padding: 24px 24px 20px;
+  position: relative;
+}
+
+.refreshBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-secondary, #6B7079);
+  padding: 0;
+}
+
+.refreshBtn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.refreshBtn:focus-visible {
+  outline: 2px solid var(--color-border-focus, #2CA01C);
+  outline-offset: 2px;
+}
+
+.refreshIcon {
+  transition: transform 150ms ease;
+}
+
+.refreshIconSpinning {
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .accountLabelRow {
