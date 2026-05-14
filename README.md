@@ -53,21 +53,50 @@ The prototype demonstrates the experience in three surfaces:
 
 ## 📋 User Research
 
-A moderated usability session was conducted to validate the four core flows. Key findings:
+### Study Overview
 
-### What Worked Well
-- **Link Account** was the smoothest flow — participant called it "surprisingly easy"
-- **Fix Connection** completed without any facilitator intervention
-- **Past Consents** view was discoverable and easy to navigate
-- Overall design rated as "super clean" and easy to use
-- **Confidence score: 4 out of 5**
+**Objective.** Evaluate the usability of the Unified Linked Accounts interface by observing whether users can successfully perform four core tasks: identifying and fixing a broken connection, adding a new connection, unlinking or deleting an existing connection, and reviewing their past consent history.
 
-### What Needs Iteration
+**Research questions.**
+- Can users recognize a broken connection state and independently resolve it through the UI?
+- Is the "Link Account" entry point discoverable enough for users to add a new connection without guidance?
+- Can users confidently unlink or delete a connection, and do they understand the consequences before confirming?
+- Are users able to locate and interpret their past consent and connection history?
+
+**Methodology.** Moderated, task-based usability testing. One-on-one sessions (remote or in-person) using a think-aloud protocol. The facilitator provides a scenario and task prompt, then observes without guiding unless the participant is completely stuck.
+
+### Participant 1 — Amy Rose
+- **Role:** Director of Operations, Sales, & Marketing
+- **Company:** [Rigdon Inc.](https://www.rigdoninc.com) — Facilities Services
+- **Company size:** $5M–$9.99M revenue
+- **Confidence score:** 4 / 5
+
+#### Task Results at a Glance
+
+| Task | Result | Observation |
+|------|--------|-------------|
+| **Fix Connection** | ✅ Passed | Identified the broken connection and resolved it independently |
+| **Add Connection** | ✅ Passed | Found "Link Account" immediately — called it "surprisingly easy" |
+| **Unlink / Delete** | ⚠️ Friction | Interpreted "Disable" as permanently deleting the account, not pausing it. Suggested a toggle would be more intuitive |
+| **Past Consents** | ✅ Passed | Navigated to the past consent view without guidance and located her deleted connection |
+
+#### Key Findings
+
+**What worked well**
+- Overall interface described as *"super clean and easy to navigate"* — strong first impression
+- **Link Account** was the smoothest flow of the session
+- **Past Consents** was discoverable — validates the information architecture for that flow
+
+**What needs iteration**
+- *"Disable" language is misleading* (High) — read as permanent deletion. A toggle with language like "Turn off" or "Pause connection" would better signal a reversible action.
+- *No force-sync option after reconnecting* (High) — wanted a way to manually refresh account data after a fix. Without it, no confidence that fresh data was actually pulled.
+
+#### Recommendations & Status
 
 | Finding | Priority | Recommendation | Status |
 |---------|----------|----------------|--------|
-| "Disable" language misread as permanent deletion | 🔴 High | Replace with toggle + clearer language (e.g., "Pause connection") | ✅ Shipped — renamed to Pause / Resume |
-| No force-sync option after reconnecting | 🔴 High | Add per-connection "Sync now" button with progress indicator | ✅ Shipped — refresh icon on each account refreshes balance + timestamp |
+| "Disable" language misread as permanent deletion | 🔴 High | Replace with toggle + clearer language (e.g., "Pause connection" vs. "Unlink" vs. "Delete") | ✅ Shipped — renamed to **Pause / Resume** |
+| No force-sync option after reconnecting | 🔴 High | Add per-connection "Sync now" button with progress indicator | ✅ Shipped — **Refresh icon** on each account refreshes the balance + timestamp, and reauth now updates the timestamp to "Updated just now" |
 | Duplicate account names (two "Chase") cause confusion | 🟡 Medium | Allow users to rename or nickname each connection | 🟡 Open |
 
 ---
